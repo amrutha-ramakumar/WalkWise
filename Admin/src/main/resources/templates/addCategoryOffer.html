@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments::head}"></head>
+
+<body>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <!--            <a href="index.html" class="brand-wrap">-->
+        <!--                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+        <!--            </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link active" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+
+
+<main class="main-wrap">
+
+    <header th:replace="~{fragments :: header}"></header>
+    <section class="content-main">
+        <div class="row">
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Add Category Offer</h2>
+                    <div>
+                        <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                         <button class="btn btn-md rounded font-sm hover-up">Publich</button> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Offer Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/saveOffer}" th:object="${offerDto}"   method="POST">
+
+                            <div class="mb-4">
+                                <label  class="form-label">Choose Category</label>
+                                <select th:field="*{category}" name="product" class="form-select">
+                                    <option th:value="null"> select</option>
+                                    <option th:each="category :${categories}"
+                                            th:value="${category.id}"
+                                            th:text="${category.name}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">Offer Name</label>
+                                <input type="text" th:field="*{offerName}"  name="offerName"   class="form-control"    />
+                                <p style="color: red" th:if="${#fields.hasErrors('offerName')}" th:errors="*{offerName}"></p>
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">Offer Description</label>
+                                <input type="text" th:field="*{description}"  name="desciption"   class="form-control"    />
+                                <p style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">Offer Percentage</label>
+                                <input type="text" th:field="*{offerPercentage}"  name="offerPercentage"   class="form-control"    />
+                                <p style="color: red" th:if="${#fields.hasErrors('offerPercentage')}" th:errors="*{offerPercentage}"></p>
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">Offer Type</label>
+                                <input type="texr" th:field="*{offerType}" value="Category Offer" name="offerType"   class="form-control"  readonly  />
+                                <p style="color: red" th:if="${#fields.hasErrors('offerType')}" th:errors="*{offerType}"></p>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div> <!-- card end// -->
+            </div>
+        </div>
+    </section> <!-- content-main end// -->
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+</main>
+
+<div th:replace="~{fragments::scripts}"></div>
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::head}">
+</head>
+
+<body>
+    <main>
+        <header th:replace="~{fragments :: header}"></header>
+<!--        <section class="content-main mt-80 mb-80">-->
+<!--            <div class="card mx-auto card-login">-->
+<!--                <div class="card-body">-->
+<!--                    <h4 class="card-title mb-4">Create an Account</h4>-->
+<!--                    <div th:if="${emailError}">-->
+<!--                        <p class="alert alert-danger" th:text="${emailError}"></p>-->
+<!--                    </div>-->
+<!--                    <div th:if="${passwordError}">-->
+<!--                        <p class="alert alert-danger" th:text="${passwordError}"></p>-->
+<!--                    </div>-->
+<!--                    <div th:if="${errors}">-->
+<!--                        <p class="alert alert-danger" th:text="${errors}"></p>-->
+<!--                    </div>-->
+<!--                    <div th:if="${success}">-->
+<!--                        <p class="alert alert-success" th:text="${success}"></p>-->
+<!--                    </div>-->
+<!--                    <form th:action="@{/register-new}" th:object="${adminDto}" method="POST">-->
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Firstname</label>-->
+<!--                            <input class="form-control" placeholder="Firstname" th:field="*{firstName}"-->
+<!--                                   id="exampleFirstName" type="text">-->
+<!--                            <p style="color: red" th:if="${#fields.hasErrors('firstName')}"-->
+<!--                              th:errors="*{firstName}"></p>-->
+<!--                        </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Lastname</label>-->
+<!--                            <input class="form-control" th:field="*{lastName}" id="exampleLastName" placeholder="Lastname" type="text">-->
+<!--                            <p style="color: red" th:if="${#fields.hasErrors('lastName')}"-->
+<!--                            th:errors="*{lastName}"></p>-->
+<!--                        </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Username</label>-->
+<!--                            <input class="form-control" th:field="*{username}" id="exampleUserName" placeholder="Username" type="text">-->
+<!--                        </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Phone</label>-->
+<!--                                 <input class="form-control" th:field="*{mobileNumber}" id="exampleInputmobile" placeholder="Phone" type="text">-->
+<!--                            <p style="color: red" th:if="${#fields.hasErrors('mobileNumber')}"-->
+<!--                            th:errors="*{mobileNumber}"></p>-->
+<!--                        </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Password</label>-->
+<!--                            <input class="form-control" th:field="*{password}" id="exampleInputPassword" placeholder="Password" type="password">-->
+<!--                            <p style="color: red" th:if="${#fields.hasErrors('password')}"-->
+<!--                             th:errors="*{password}"></p>-->
+<!--                        </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+
+<!--                        <div class="mb-3">-->
+<!--                            <label class="form-label">Repeat Password</label>-->
+<!--                            <input class="form-control" th:field="*{repeatPassword}" id="exampleRepeatPassword" placeholder="Repeat Password" type="text">-->
+
+<!--                        </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+<!--                        <div class="mb-3">-->
+<!--                            <p class="small text-center text-muted">By signing up, you confirm that you’ve read and accepted our User Notice and Privacy Policy.</p>-->
+<!--                        </div> &lt;!&ndash; form-group  .// &ndash;&gt;-->
+<!--                        <div class="mb-4">-->
+<!--                            <button type="submit" class="btn btn-primary w-100"> Create Account </button>-->
+<!--                        </div> &lt;!&ndash; form-group// &ndash;&gt;-->
+<!--                    </form>-->
+<!--                    <p class="text-center mb-2">Already have an account? <a th:href="@{/login}">Sign in now</a></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+        <section class="content-main mt-80 mb-80">
+            <div class="card mx-auto card-login" style="max-width: 500px;">
+                <div class="card-body"  >
+                    <h4 class="card-title mb-4">Create an Account</h4>
+                    <div th:if="${emailError}">
+                        <p class="alert alert-danger" th:text="${emailError}"></p>
+                    </div>
+                    <div th:if="${passwordError}">
+                        <p class="alert alert-danger" th:text="${passwordError}"></p>
+                    </div>
+                    <div th:if="${errors}">
+                        <p class="alert alert-danger" th:text="${errors}"></p>
+                    </div>
+                    <div th:if="${success}">
+                        <p class="alert alert-success" th:text="${success}"></p>
+                    </div>
+                    <form th:action="@{/register-new}" th:object="${adminDto}" method="POST">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Firstname</label>
+                                <input class="form-control" placeholder="Firstname" th:field="*{firstName}"
+                                       id="exampleFirstName" type="text">
+                                <p style="color: red" th:if="${#fields.hasErrors('firstName')}"
+                                   th:errors="*{firstName}"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Lastname</label>
+                                <input class="form-control" th:field="*{lastName}" id="exampleLastName" placeholder="Lastname" type="text">
+                                <p style="color: red" th:if="${#fields.hasErrors('lastName')}"
+                                   th:errors="*{lastName}"></p>
+                            </div>
+                        </div> <!-- form-group// -->
+
+
+                            <div class="md-6">
+                                <label class="form-label">Username</label>
+                                <input class="form-control" th:field="*{username}" id="exampleUserName" placeholder="Username" type="text">
+                            </div>
+                            <div class="md-6">
+                                <label class="form-label">Phone</label>
+                                <input class="form-control" th:field="*{mobileNumber}" id="exampleInputmobile" placeholder="Phone" type="text">
+                                <p style="color: red" th:if="${#fields.hasErrors('mobileNumber')}"
+                                   th:errors="*{mobileNumber}"></p>
+                            </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Password</label>
+                                <input class="form-control" th:field="*{password}" id="exampleInputPassword" placeholder="Password" type="password">
+                                <p style="color: red" th:if="${#fields.hasErrors('password')}"
+                                   th:errors="*{password}"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Repeat Password</label>
+                                <input class="form-control" th:field="*{repeatPassword}" id="exampleRepeatPassword" placeholder="Repeat Password" type="password">
+                            </div>
+                        </div> <!-- form-group// -->
+
+                        <div class="mb-3">
+                            <p class="small text-center text-muted">By signing up, you confirm that you’ve read and accepted our User Notice and Privacy Policy.</p>
+                        </div> <!-- form-group  .// -->
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-primary w-100"> Create Account </button>
+                        </div> <!-- form-group// -->
+                    </form>
+                    <p class="text-center mb-2">Already have an account? <a th:href="@{/login}">Sign in now</a></p>
+                </div>
+            </div>
+        </section>
+
+        <footer th:replace="~{fragments :: footer}">
+            <p class="font-xs mb-30">All rights reserved</p>
+        </footer>
+    </main>
+    <div th:replace="~{fragments::scripts}"></div>
+</body>
+
+</html>

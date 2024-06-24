@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head_sec}"></head>
+
+</head>
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::side-header}"></div>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/home}" rel="nofollow">Home</a>
+                <span></span> <a th:href="@{/shops/0}">Shop</a>
+                <span></span> Your Cart
+            </div>
+        </div>
+    </div>
+
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div th:if="${param.empties}">
+                        <div class="alert alert-danger">Cart is empty !</div>
+                    </div>
+                    <div th:if="${param.quantityError}">
+                        <div class="alert alert-danger">you selected more items. please check selected quantity and avalable stcok  !</div>
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table class="table shopping-summery text-center clean">
+                            <thead>
+                            <tr class="main-heading">
+                                <th scope="col">Image</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Subtotal</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="cart : ${shoppingCart}">
+                                <td class="image product-thumbnail"><img th:src="@{|/imgs/images/${cart.product.image[0].getName()}|}" alt="#">
+                                                                         </td>
+                                <td class="product-des product-name">
+                                    <h5 class="product-name" th:text="${cart.product.name}"><a></a></h5>
+                                    <p class="font-xs">
+                                    </p>
+                                </td>
+                                <td class="price" data-title="Price" th:text="${cart.unitPrice}"><span>$ </span></td>
+                                <td class="text-center" data-title="Stock">
+                                    <a th:href="@{/decremetQuantity(cartId=${cart.id})}" >-</a>
+                                    <span th:text="${cart.quantity}"></span>
+                                    <a th:href="@{/incrementQuantity(cartId=${cart.id},productId=${cart.product.id})}">+</a>
+
+<!--                                    <p  th:each="productSizeQuanty:${productSizeQuantities}"  th:if="${productSizeQuanty.product.id==cart.product.id && cart.size.id==productSizeQuanty.size.id}">Available Stock: <span  th:text="${productSizeQuanty.quantity}"></span></p>-->
+                                </td>
+                                <td >
+                                    <span th:text="${cart.size.name}"></span>
+                                </td>
+<!--                                <td>-->
+<!--                                    <form th:action="@{/cart/updateSize}" method="post">-->
+<!--                                        <input type="hidden" th:name="cartItemId" th:value="${cart.size.id}" />-->
+<!--                                        <select th:name="newSize">-->
+<!--                                            <option th:each="size : ${productSizeQuantities}"-->
+<!--                                                    th:value="${size.id}"-->
+<!--                                                    th:text="${size.size.name}"-->
+<!--                                                    th:selected="${size.size.name == cart.size.name-->
+<!--                                                    }"></option>-->
+<!--                                        </select>-->
+<!--                                        <button type="submit">Update</button>-->
+<!--                                    </form>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <form th:action="@{/cart/updateSize}" method="post" th:id="'form-' + ${cart.size.id}">-->
+<!--                                        <input type="hidden" th:name="cartItemId" th:value="${cart.size.id}" />-->
+<!--                                        <select th:name="newSize" th:onchange="this.form.submit()">-->
+<!--                                            <option th:each="size : ${productSizeQuantities}"-->
+<!--                                                    th:value="${size.size}"-->
+<!--                                                    th:text="${size.size.name}"-->
+<!--                                                    th:selected="${size.size.name == cart.size.name}"></option>-->
+<!--                                        </select>-->
+<!--                                    </form>-->
+<!--                                </td>-->
+                                <td class="text-right" data-title="Cart" >
+                                    <span th:text="${cart.totalPrice}">$ </span>
+                                </td>
+                                <td ><a th:href="@{/deleteCartItem(cartId=${cart.id})}"
+                                        onclick="if (!confirm('Are you sure want to delete this item from cart'))return false "><i class="fi-rs-trash"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart-action text-end">
+
+                        <a class="btn " th:href="@{/shops/0}"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                    </div>
+                    <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+                    <div class="row mb-50">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="border p-md-4 p-30 border-radius cart-totals">
+                                <div class="heading_s1 mb-3">
+                                    <h4>Cart Totals</h4>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td class="cart_total_label" >Cart Subtotal</td>
+                                            <td class="cart_total_amount"><span class="font-lg fw-900 text-brand" th:text="${total}" >$</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cart_total_label">Shipping</td>
+                                            <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free Shipping</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cart_total_label">Total</td>
+                                            <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand" th:text="${total}">$</span></strong></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <a th:href="@{/checkOut}" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+<footer th:replace="~{fragments::footer-sec}"></footer>
+
+<script>
+    document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', function() {
+            this.form.submit();
+        });
+    });
+</script><div th:replace="~{fragments::scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head_sec}">
+
+</head>
+
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/}" rel="nofollow">Home</a>
+                <span></span> Shop
+                <span></span> Wishlist
+            </div>
+        </div>
+    </div>
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <DIV th:if="${wishList.size()==0}">No Product</DIV>
+                        <table class="table shopping-summery text-center">
+                            <thead>
+                            <tr class="main-heading" style="border-bottom: 0.5px solid #212529;">
+                                <th scope="col" colspan="2">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Size</th>
+
+                                <th scope="col">Stock Status</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                            </thead>
+                            <tbody th:if="${wishList.size()>0}">
+                            <tr th:each="wishlists :${wishList}">
+                                <td class="image product-thumbnail"><img th:src="@{|/imgs/images/${wishlists.product.image[0].getName()}|}"></td>
+                                <td class="product-des product-name">
+                                    <h5 class="product-name"><a href="shop-product-right.html" th:text="${wishlists.product.name}" ></a></h5>
+
+                                    </p>
+                                </td>
+                                <td class="price" data-title="Price"><span th:text="${wishlists.product.salePrice}">$ </span></td>
+                                <td th:each="productSize:${productSizes}" class="price" data-title="Price" th:if="${wishlists.product.id==productSize.product.id && wishlists.size == productSize.size.id}"><span th:text="${productSize.size.name}">$ </span></td>
+
+                                <td th:each="productSize:${productSizes}" th:if="${wishlists.product.id==productSize.product.id && wishlists.size == productSize.size.id}" class="text-center" data-title="Stock">
+                                    <span class="color3 font-weight-bold" th:text="${productSize.quantity}"></span>
+                                </td>
+<!--                                <td class="text-center" data-title="Stock">-->
+<!--                                    <div th:each="sizeQuantity : ${productQuantity}" th:if="${sizeQuantity.product.id == wishlists.product.id}">-->
+<!--                                        <span th:text="'Size: ' + ${sizeQuantity.size} + ' - Qty: ' + ${sizeQuantity.quantity}"></span><br/>-->
+<!--                                    </div>-->
+<!--                                </td>-->
+                                <td class="text-right" data-title="Cart">
+                                    <a th:each="productSize:${productSizes}" th:if="${wishlists.product.id==productSize.product.id && wishlists.size == productSize.size.id && productSize.quantity>0}"  class="btn btn-sm" th:href="@{/addToCart(productId=${wishlists.product.id},sizeId=${productSize.size.id},quantity=1)}"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</a>
+                                    <a th:each="productSize:${productSizes}" th:if="${wishlists.product.id==productSize.product.id && wishlists.size == productSize.size.id && productSize.quantity==0}" disabled=""  class="btn btn-sm" th:href="@{/addToCart(productId=${wishlists.product.id},sizeId=${productSize.size.id},quantity=1)}"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</a>
+
+                                </td>
+                                <td class="action" data-title="Remove">
+                                    <a href="#" th:href="@{/removeFromWishList(wishListId=${wishlists.id})}"
+                                       onclick="return confirmRemoveFromWishList(event, this)">
+                                        <i class="fi-rs-trash"></i>
+                                    </a>
+                                </td>
+<!--                                <td class="action" data-title="Remove"><a th:href="@{/removeFromWishList(wishListId=${wishlists.id})}"-->
+<!--                                                                          onclick="if (!confirm('Are you sure want to delete this item wish List'))return false "><i class="fi-rs-trash"></i></a></td>-->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<!-- Preloader Start -->
+<div th:replace="~{fragments::pre-loader}"></div>
+<!-- Vendor JS-->
+<div th:replace="~{fragments::scripts}"></div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmRemoveFromWishList(event, element) {
+        event.preventDefault(); // Prevent the default action
+        var removeUrl = element.getAttribute("href");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this item from the wish list?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, follow the link
+                window.location.href = removeUrl;
+            }
+        });
+        return false; // Prevent default action
+    }
+</script>
+</body>
+</html>

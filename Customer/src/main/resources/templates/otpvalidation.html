@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+
+<head th:replace="~{fragments::head_sec}"></head>
+
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::signin-side-header}"></div>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{index}" rel="nofollow">Home</a>
+                <span></span> Pages
+                <span></span> Login
+            </div>
+        </div>
+    </div>
+    <section class="pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <div style="margin-left: 35%;" class="col-lg-5">
+                            <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                    </div>
+                                    <form th:action="@{/validateOTP}" th:object="${userOTP}" method="post" id="secondForm">
+
+
+                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                            <span class="h1 fw-bold mb-0"></span>
+                                        </div>
+
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Enter OTP</h5>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" id="form2Example17" class="form-control form-control-lg" name="email" th:value="${userOTP.email}" readonly/>
+
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="text" id="form2Example27" th:field="*{oneTimePassword}" class="form-control form-control-lg" placeholder="Onetime password" name="oneYimePassword" />
+<!--                                            <label class="form-label" for="form2Example27">Enter the otp</label>-->
+                                            <label style="color: #f84747" th:if="${invalid}" th:text="${invalid}"></label>
+                                        </div>
+
+                                        <div th:if="${expire}">
+                                            <p style="color: #f84747" th:text="${expire}"></p>
+                                        </div>
+<!--                                            <span style="color: red; margin-left: 20%;" id="countdown"></span>-->
+                                        <!-- Add this button to trigger OTP regeneration -->
+
+                                        <div class="pt-1 mb-4">
+                                            <button class="btn btn-lg btn-block text-light" type="submit" style="background-color: #088178;">Submit</button>
+
+                                        </div>
+
+                                    </form>
+
+                                    <form th:action="@{/regenerateOTP}" method="post" id="resendOTPForm" hidden="until-found">
+                                        <!-- Hidden field to store email "-->
+                                        <input type="hidden" name="email" th:value="${userOTP.email}" />
+                                        <button id="resendOTPBtn" class="btn btn-lg btn-block text-light" type="submit" style="background-color: #088178; margin-left: 25%" disabled>Resend OTP</button>
+                                    </form>
+                                    <a th:href="@{/}">Back to Home</a><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<!-- Preloader Start -->
+<div th:replace="~{fragments::pre-loader}"></div>
+<!-- Vendor JS-->
+<div th:replace="~{fragments::scripts}"></div>
+<!-- Template  JS -->
+
+<!--Resend otp setting enable and disable forms-->
+<script>
+    // Function to enable the Resend OTP button after 1 minute
+    function enableResendOTP() {
+        var resendOTPBtn = document.getElementById('resendOTPBtn');
+        var secondForm = document.getElementById('secondForm');
+        resendOTPBtn.removeAttribute('disabled');
+        resendOTPForm.removeAttribute('hidden');
+        secondForm.style.display = 'none'; // Hide the second form
+    }
+
+    // Set a timer to enable the button after 1 minute
+    setTimeout(enableResendOTP, 60000); // 60000 milliseconds = 1 minute
+</script>
+
+<!-- Counting otp validation time -->
+<!--<script>-->
+<!--    // Function to start OTP expiration countdown-->
+<!--    function startCountdown(durationSeconds) {-->
+<!--        var countdownElement = document.getElementById('countdown');-->
+<!--        var remainingTime = durationSeconds;-->
+
+<!--        // Display initial message-->
+<!--        countdownElement.innerText = "OTP will expire in " + remainingTime + " seconds";-->
+
+<!--        // Update countdown every second-->
+<!--        var countdownInterval = setInterval(function() {-->
+<!--            // Decrease remaining time-->
+<!--            remainingTime&#45;&#45;;-->
+
+<!--            // Check if time has expired-->
+<!--            if (remainingTime <= 0) {-->
+<!--                clearInterval(countdownInterval);-->
+<!--                countdownElement.innerText = "OTP expired!";-->
+<!--            } else {-->
+<!--                // Display remaining time along with the sentence-->
+<!--                countdownElement.innerText = "OTP will expire in " + remainingTime + " seconds";-->
+<!--            }-->
+<!--        }, 1000); // Update every second-->
+<!--    }-->
+
+<!--    // Start OTP expiration countdown with 60 seconds-->
+<!--    startCountdown(60); // Change the parameter to set the desired countdown duration in seconds-->
+
+<!--</script>-->
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html class="no-js" lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">-->
+
+<!--<head th:replace="~{fragments::head_sec}"></head>-->
+
+<!--<body>-->
+<!--<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">-->
+<!--</header>-->
+<!--<div th:replace="~{fragments::signin-side-header}"></div>-->
+<!--<main class="main">-->
+<!--    <div class="page-header breadcrumb-wrap">-->
+<!--        <div class="container">-->
+<!--            <div class="breadcrumb">-->
+<!--                <a href="index.html" rel="nofollow">Home</a>-->
+<!--                <span></span> Pages-->
+<!--                <span></span> Login-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <section class="pt-150 pb-150">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-10 m-auto">-->
+<!--                    <div class="row">-->
+<!--                        <div style="margin-left: 35%;" class="col-lg-5">-->
+<!--                            <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">-->
+<!--                                <div class="padding_eight_all bg-white">-->
+<!--                                    <div class="heading_s1">-->
+<!--                                        <h3 class="mb-30">Login</h3>-->
+<!--                                    </div>-->
+<!--                                    <form th:action="@{/validateOTP}" th:object="${userOTP}" method="post"  id="secondForm">-->
+
+
+<!--                                        <div class="d-flex align-items-center mb-3 pb-1">-->
+<!--                                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>-->
+<!--                                            <span class="h1 fw-bold mb-0"></span>-->
+<!--                                        </div>-->
+
+<!--                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Otp Verification</h5>-->
+
+<!--                                        <div class="form-outline mb-4">-->
+<!--                                            <input type="text" id="form2Example17" class="form-control form-control-lg" name="email" th:value="${userOTP.email}" readonly/>-->
+
+<!--                                        </div>-->
+
+<!--                                        <div class="form-outline mb-4">-->
+<!--                                            <input type="text" id="form2Example27" th:field="*{oneTimePassword}" class="form-control form-control-lg" name="oneYimePassword" />-->
+<!--                                            <label class="form-label" for="form2Example27">Enter the otp</label>-->
+<!--                                            <label style="color: #f84747" th:if="${invalid}" th:text="${invalid}"></label>-->
+<!--                                        </div>-->
+
+<!--                                        <div th:if="${expire}">-->
+<!--                                            <p style="color: #f84747" th:text="${expire}"></p>-->
+<!--                                        </div>-->
+<!--                                        <span id="countdown"></span>-->
+<!--                                        &lt;!&ndash; Add this button to trigger OTP regeneration &ndash;&gt;-->
+<!--                                            <div class="pt-1 mb-4">-->
+<!--                                                <button class="btn btn-lg btn-block text-light" type="submit" style="background-color: #088178;">Submit</button>-->
+<!--                                            </div>-->
+
+
+
+<!--                                    </form>-->
+<!--                                    <form th:action="@{/regenerateOTP}" method="post" id="resendOTPForm" hidden="until-found">-->
+<!--                                        &lt;!&ndash; Hidden field to store email &ndash;&gt;-->
+<!--                                        <input type="hidden" name="email" th:value="${userOTP.email}" />-->
+<!--                                        <button id="resendOTPBtn" class="btn btn-lg btn-block text-light" type="submit" style="background-color: #088178;" disabled>Resend OTP</button>-->
+<!--                                    </form>-->
+<!--                                    <a th:href="@{/}">Back to Home</a><br>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+<!--</main>-->
+<!--<footer th:replace="~{fragments::footer-sec}"></footer>-->
+<!--&lt;!&ndash; Preloader Start &ndash;&gt;-->
+<!--<div th:replace="~{fragments::pre-loader}"></div>-->
+<!--&lt;!&ndash; Vendor JS&ndash;&gt;-->
+<!--<div th:replace="~{fragments::scripts}"></div>-->
+<!--&lt;!&ndash; Template  JS &ndash;&gt;-->
+<!--&lt;!&ndash; Add this button to trigger OTP regeneration &ndash;&gt;-->
+<!--<script>-->
+<!--    // Function to enable the Resend OTP button after 1 minute-->
+<!--    function enableResendOTP() {-->
+<!--        var resendOTPBtn = document.getElementById('resendOTPBtn');-->
+<!--        var secondForm = document.getElementById('secondForm');-->
+<!--        resendOTPBtn.removeAttribute('disabled');-->
+<!--        resendOTPForm.removeAttribute('hidden');-->
+<!--        secondForm.style.display = 'none'; // Hide the second form-->
+<!--    }-->
+
+<!--    // Set a timer to enable the button after 1 minute-->
+<!--    setTimeout(enableResendOTP, 60000); // 60000 milliseconds = 1 minute-->
+<!--</script>-->
+
+<!--<script>-->
+<!--    // Function to start OTP expiration countdown-->
+<!--    function startCountdown(durationSeconds) {-->
+<!--        var countdownElement = document.getElementById('countdown');-->
+<!--        var remainingTime = durationSeconds;-->
+
+<!--        // Display initial message-->
+<!--        countdownElement.innerText = "OTP will expire in " + remainingTime + " seconds";-->
+
+<!--        // Update countdown every second-->
+<!--        var countdownInterval = setInterval(function() {-->
+<!--            // Decrease remaining time-->
+<!--            remainingTime&#45;&#45;;-->
+
+<!--            // Check if time has expired-->
+<!--            if (remainingTime <= 0) {-->
+<!--                clearInterval(countdownInterval);-->
+<!--                countdownElement.innerText = "OTP expired!";-->
+<!--            } else {-->
+<!--                // Display remaining time along with the sentence-->
+<!--                countdownElement.innerText = "OTP will expire in " + remainingTime + " seconds";-->
+<!--            }-->
+<!--        }, 1000); // Update every second-->
+<!--    }-->
+
+<!--    // Start OTP expiration countdown with 60 seconds-->
+<!--    startCountdown(60); // Change the parameter to set the desired countdown duration in seconds-->
+
+<!--</script>-->
+<!--</body>-->
+
+<!--</html>-->

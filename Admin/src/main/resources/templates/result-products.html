@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}">
+
+<body>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+<!--        <a href="index.html" class="brand-wrap">-->
+<!--            <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+<!--        </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+<main class="main-wrap">
+    <header th:replace="~{fragments :: header}"></header>
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Products</h2>
+            </div>
+
+
+        </div>
+        <div class="container">
+
+            <p th:if="${size == 0} ">No Products</p>
+            <div th:if = "${success}" class = "text-center alert alert-success">
+                <p th:text = "${success}"></p>
+            </div>
+            <div th:if = "${error}" class="text-center alert alert-danger">
+                <p th:text = "${error}"></p>
+            </div>
+
+            <div class="card mb-5">
+                <header class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <a th:href="@{/add-product}" class = "btn btn-primary">Add Product</a>
+                        </div>
+                        <div class="col-md-4">
+                            <!--  category search           -->
+                            <form th:action = "@{/search-products/0}" method = "get">
+                                <div class="input-group">
+                                    <input  type="text" class="form-control " id="search" name = "keyword" placeholder="Search product" aria-label="Search"  />
+                                    <button type="submit" style="background-color: #088178; color: #FFFFFF" class="btn " >search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </header>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0" th:if = "${size > 0}">
+                                <thead class="table-light">
+                                <tr>
+
+                                    <th class="align-middle" scope="col">Name</th>
+                                    <th class="align-middle" scope="col">Category</th>
+                                    <th class="align-middle" scope="col">Cost Price</th>
+                                    <th class="align-middle" scope="col">Sales Price</th>
+                                    <th class="align-middle" scope="col">Quantity</th>
+                                    <th class="align-middle" scope="col">Image</th>
+                                    <th class="align-middle" scope="col">Update</th>
+                                    <th class="align-middle" scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each = "product : ${products}">
+                                    <td scope="row" class="text-center" th:text = "${product.name}" ></td>
+                                    <td th:text = "${product.category.name}"></td>
+                                    <td th:text = "${product.costPrice}"></td>
+                                    <td th:text = "${product.salePrice}"></td>
+                                    <td th:text = "${product.currentQuantity}"></td>
+                                    <td>
+                                        <img class = "my-product-image" style="height: 40px; width: 40px;" alt="ProductImage"
+                                             th:src="@{|/imgs/images/${product.image[0].getName()}|}" >
+                                    </td>
+                                    <td><a th:href="@{/update-product/{id}(id= ${product.id})}" class="btn btn-primary">Update</a></td>
+                                    <td>
+<!--                                        <a th:if="${product.activated} == true" th:href="@{/disable-product/{id}(id = ${product.id})}"-->
+<!--                                           class="btn btn-danger" onclick="if (!(confirm('Are you sure you want to Disable this product?'))) return false">Disable</a>-->
+<!--                                        <a th:if="${product.activated} == false" onclick="if (!(confirm('Are you sure you want to Enable this product?'))) return false" th:href="@{/enable-product/{id}(id = ${product.id})}"-->
+<!--                                           class=" btn btn-primary">Enable</a>-->
+<!--                                        <a  th:href="@{/delete-product/{id}(id = ${product.id})}"-->
+<!--                                            class=" btn btn-primary" onclick="if (!(confirm('Are you sure you want to Delete this Product?'))) return false">Delete</a>-->
+                                        <a th:if="${product.activated} == true" th:href="@{/disable-product/{id}(id=${product.id})}"
+                                           class="btn btn-danger" onclick="return confirmAction(event, this, 'Disable', 'disable this product')">Disable</a>
+                                        <a th:if="${product.activated} == false" th:href="@{/enable-product/{id}(id=${product.id})}"
+                                           class="btn btn-primary" onclick="return confirmAction(event, this, 'Enable', 'enable this product')">Enable</a>
+                                        <!--                                        <a th:href="@{/delete-product/{id}(id=${product.id})}"-->
+                                        <!--                                           class="btn btn-primary" onclick="return confirmAction(event, this, 'Delete', 'delete this product')">Delete</a>-->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> <!-- table-responsive end// -->
+                </div>
+            </div>
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li th:if = "${currentPage != 0}" class="page-item">
+                            <a th:href="@{'/products/' + ${currentPage - 1}}" class="page-link" href="#"><i class="material-icons md-chevron_left"></i></a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(1,totalPages)}" th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                            <a th:href="@{'/products/' + ${i - 1}}" class="page-link" href="#"><span th:text=" ${i}"></span></a>
+                        </li>
+                        <li th:if = "${currentPage +1 != totalPages}" class="page-item">
+                            <a th:href=" @{'/products/' +${currentPage + 1}}" class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <!-- content-main end// -->
+
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+</main>
+<div th:replace="~{fragments::scripts}"></div>
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmAction(event, element, action, message) {
+        event.preventDefault(); // Prevent the default action
+        var actionUrl = element.getAttribute("href");
+
+        Swal.fire({
+            title: `Are you sure?`,
+            text: `Do you really want to ${message}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Yes, ${action} it!`,
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = actionUrl;
+            }
+        });
+        return false; // Prevent default action
+    }
+</script>
+</body>
+
+</html>

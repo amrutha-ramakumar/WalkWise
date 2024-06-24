@@ -1,0 +1,705 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}">
+
+<body>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <!--            <a href="index.html" class="brand-wrap">-->
+        <!--                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+        <!--            </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+
+
+<main class="main-wrap">
+    <header th:replace="~{fragments :: header}"></header>
+    <section class="content-main">
+        <div class="container-fluid">
+            <form id="updateProduct" class="form-horizontal" th:action="@{/update-product/{id}(id=${productDto.id})}" method="POST" th:object="${productDto}" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>UPDATE PRODUCT</legend>
+
+                    <div th:if="${error}" class="text-center alert alert-danger">
+                        <p th:text="${error}"></p>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_name">Product Name</label>
+                        <div class="col-md-4">
+                            <input id="product_name" readonly th:field="*{name}" name="product_name" class="form-control input-md" type="text" required>
+                            <p style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="brand">Brand Name</label>
+                        <div class="col-md-4">
+                            <input id="brand" th:field="*{brand}" name="brand" class="form-control input-md" type="text" required>
+                            <p style="color: red" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Select Basic -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_categories">Product Category</label>
+                        <div class="col-md-4">
+                            <select id="product_categories" th:field="*{category}" name="product_categories" class="form-control" required>
+                                <option th:value="null">-SELECT-</option>
+                                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Size and Quantity -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Sizes</label>
+                        <div class="col-md-8">
+                            <div class="size-quantity-wrapper" th:each="size : ${sizes}" style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <label th:for="'quantity_' + ${size.id}" th:text="${size.name}" style="margin-right: 10px;"></label>
+                                <input type="number" th:field="*{sizeQuantities[__${size.id}__]}" th:id="'quantity_' + ${size.id}"
+                                       th:placeholder="'Quantity for ' + ${size.name}" class="quantity-input form-control"
+                                       style="max-width: 100px;" min="0" required/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="shortDescription">Short Description</label>
+                        <div class="col-md-4">
+                            <input id="ShortDescription" th:field="*{shortDescription}" name="shortDescription" class="form-control input-md" type="text" required>
+                            <p style="color: red" th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="longDescription">Long Description</label>
+                        <div class="col-md-4">
+                            <input id="LongDescription" th:field="*{longDescription}" name="longDescription" class="form-control input-md" type="text" required>
+                            <p style="color: red" th:if="${#fields.hasErrors('longDescription')}" th:errors="*{longDescription}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="available_quantity">Available Quantity</label>
+                        <div class="col-md-4">
+                            <input id="available_quantity" th:field="*{currentQuantity}" name="available_quantity" class="form-control input-md" type="text" readonly>
+                            <p style="color: red" th:if="${#fields.hasErrors('currentQuantity')}" th:errors="*{currentQuantity}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="costprice">Cost Price</label>
+                        <div class="col-md-4">
+                            <input id="costprice" name="costprice" th:field="*{costPrice}" class="form-control input-md" type="text" required>
+                            <p style="color: red" th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="salesPrice">Sale Price</label>
+                        <div class="col-md-4">
+                            <input id="salesPrice" name="salesPrice" th:field="*{salePrice}" class="form-control input-md" type="text" required>
+                            <p style="color: red" th:if="${#fields.hasErrors('salePrice')}" th:errors="*{salePrice}"></p>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload and Preview -->
+<!--                    <div class="form-group">-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="form-group">-->
+<!--                                <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; margin-bottom: 10px;">-->
+<!--                                    <div th:if="${imagesize >= 0}" th:each="index : ${#numbers.sequence(0, imagesize)}" class="image-container">-->
+<!--                                        <a th:href="@{/delete-image/{imageName}/{id}(imageName=${productDto.image[${index}].getName()}, id=${productDto.id})}"-->
+<!--                                           onclick="if (!(confirm('Are you sure you want to delete this product image?'))) return false">-->
+<!--                                            <img class="my-product-image" style="height: 80px; width: 80px; margin-left: 10px; margin-right: 10px;"-->
+<!--                                                 alt="product-image" th:field="*{image}"-->
+<!--                                                 th:src="@{|/imgs/images/${productDto.image[${index}].getName()}|}">-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="image-preview horizontal-preview" style="max-width: 200px; max-height: 200px; display: flex; flex-wrap: nowrap; overflow-x: auto;"></div>-->
+<!--                                <div>-->
+<!--                                    <div class="form-group">-->
+<!--                                        <label class="col-md-6 control-label" for="image">Product Image</label>-->
+<!--                                        <div class="col-md-6">-->
+<!--                                            <input id="image" name="imageProduct" class="input-file my-3" type="file" accept="image/*" multiple>-->
+<!--                                            <div id="file-names" hidden></div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <!-- File Button -->
+                            <div class="form-group">
+                                <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; margin-bottom: 10px; ">
+                                    <div th:if="${imagesize>=0}" th:each="index: ${#numbers.sequence(0,imagesize)}" class="image-container">
+                                        <!--                                        <img class = "my-product-image" style="height: 80px; width: 80px;" alt="product-image" th:field="*{image}"  th:src="@{|/imgs/images/${productDto.image[__${index}__].getName()}|}">-->
+                                        <!--                                        <a  th:href="@{/delete-image/{imageName}/{id}(imageName = ${productDto.image[__${index}__].getName()},id=${productDto.id})}"-->
+                                        <!--                                             onclick="if (!(confirm('Are you sure you want to Delete this Product?'))) return false"><i class="material-icons md-close"></i></a>-->
+                                        <a  th:href="@{/delete-image/{imageName}/{id}(imageName = ${productDto.image[__${index}__].getName()},id=${productDto.id})}"
+                                            onclick="if (!(confirm('Are you sure you want to Delete this Product?'))) return false">
+                                            <img  class = "my-product-image" style="height: 80px; width: 80px; margin-left: 10px; margin-right: 10px;" alt="product-image" th:field="*{image}"  th:src="@{|/imgs/images/${productDto.image[__${index}__].getName()}|}">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="image-preview horizontal-preview" style="max-width: 200px;max-height: 200px; display: flex; flex-wrap: nowrap;overflow-x: auto; "></div>
+                                <div class="">
+                                    <!-- File Button -->
+                                    <div class="form-group">
+                                        <label class="col-md-6 control-label" for="image">PRODUCT IMAGE</label>
+                                        <div class="col-md-6">
+                                            <input id="image" name="imageProduct"  class="input-file my-3" type="file" accept="image/*" multiple >
+                                            <div id="file-names" hidden="hidden"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="file-uploader__submit-button btn btn-primary">Update</button>
+                </fieldset>
+            </form>
+        </div>
+    </section>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const quantityInputs = document.querySelectorAll('.quantity-input');
+        const currentQuantityInput = document.getElementById('available_quantity');
+
+        function updateCurrentQuantity() {
+            let totalQuantity = 0;
+            quantityInputs.forEach(input => {
+                totalQuantity += parseInt(input.value) || 0;
+            });
+            currentQuantityInput.value = totalQuantity;
+        }
+
+        quantityInputs.forEach(input => {
+            input.addEventListener('input', updateCurrentQuantity);
+        });
+
+        updateCurrentQuantity();
+
+        // const imageInput = document.getElementById('image');
+        // const imagePreview = document.querySelector('.image-preview');
+        // const fileNames = document.getElementById('file-names');
+        // const fileNamesMap = new Map(); // Map to store image element and its file name
+        //
+        // imageInput.addEventListener('change', function(event) {
+        //     const selectedFiles = event.target.files;
+        //     const maxImages = 5;
+        //     const minImages = 1;
+        //     const currentImages = imagePreview.childElementCount;
+        //     const allowedImages = maxImages - currentImages;
+        //
+        //     if (selectedFiles.length > allowedImages) {
+        //         alert(`You can only upload ${maxImages} images in total. You can add ${allowedImages} more.`);
+        //         return;
+        //     }
+        //
+        //     for (let i = 0; i < selectedFiles.length; i++) {
+        //         const file = selectedFiles[i];
+        //         if (!file.type.startsWith('image/')) continue;
+        //
+        //         const imgElement = document.createElement('img');
+        //         imgElement.classList.add('my-product-image');
+        //         imgElement.style.height = '80px';
+        //         imgElement.style.width = '80px';
+        //         imgElement.style.marginLeft = '10px';
+        //         imgElement.style.marginRight = '10px';
+        //         imgElement.file = file;
+        //
+        //         const reader = new FileReader();
+        //         reader.onload = (function(img) {
+        //             return function(e) {
+        //                 img.src = e.target.result;
+        //             };
+        //         })(imgElement);
+        //
+        //         reader.readAsDataURL(file);
+        //         imagePreview.appendChild(imgElement);
+        //         fileNames.appendChild(document.createTextNode(file.name + ' '));
+        //         fileNamesMap.set(imgElement, file.name); // Store file name in the map
+        //     }
+        // });
+    });
+</script>
+
+    <script>
+        //     preview small js
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('image');
+            const imagePreview = document.querySelector('.image-preview');
+            const fileNames = document.getElementById('file-names');
+            const fileNamesMap = new Map(); // Map to store image element and its file name
+
+            imageInput.addEventListener('change', function(event) {
+                const selectedFiles = event.target.files;
+                const maxImages = 5;
+                const minImages = 1;
+                let currentImageCount = imagePreview.childElementCount;
+
+                if (selectedFiles.length + currentImageCount > maxImages) {
+                    alert(`You can only upload up to ${maxImages} images.`);
+                    return;
+                }
+
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const selectedFile = selectedFiles[i];
+                    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                    if (selectedFile) {
+                        const fileName = selectedFile.name;
+                        const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            alert(`Error: '${fileName}' has an unsupported file type.`);
+                            continue; // Skip to the next file
+                        }
+
+                        const imageContainer = document.createElement('div');
+                        imageContainer.classList.add('image-container');
+
+                        const imageElement = document.createElement('img');
+                        imageElement.src = URL.createObjectURL(selectedFile);
+                        imageElement.classList.add('preview-image');
+                        imageElement.setAttribute('data-filename', fileName); // Store file name as data attribute
+
+                        imageElement.addEventListener('click', function() {
+                            const confirmed = confirm('Are you sure you want to deselect this image?');
+                            if (confirmed) {
+                                imageContainer.remove(); // Remove only the container of the clicked image
+                                fileNamesMap.delete(imageElement); // Remove the image element from the map
+                                currentImageCount--;
+                                updateFileNames();
+                                decrementInputValue(selectedFile);
+                            }
+                        });
+
+                        imageContainer.appendChild(imageElement);
+                        imagePreview.appendChild(imageContainer);
+
+                        fileNamesMap.set(imageElement, fileName); // Store image element and its file name
+
+                        currentImageCount++;
+                    }
+                }
+
+                if (currentImageCount > maxImages) {
+                    alert(`You can only upload up to ${maxImages} images.`);
+                    // Clear the input value to prevent uploading more than the allowed limit.
+                    imageInput.value = '';
+                    return;
+                } else if (currentImageCount < minImages) {
+                    alert(`You need to upload at least ${minImages} image.`);
+                    // Clear the input value to prevent uploading fewer than the required images.
+                    imageInput.value = '';
+                }
+
+                // Assign names to the selectedFile objects
+                updateFileNames();
+            });
+
+            function updateFileNames() {
+                fileNames.innerHTML = ''; // Clear previous names
+
+                for (const [imageElement, fileName] of fileNamesMap.entries()) {
+                    const fileNameElement = document.createElement('div');
+                    fileNameElement.textContent = fileName;
+                    fileNames.appendChild(fileNameElement);
+                }
+            }
+
+            function decrementInputValue(selectedFileToRemove) {
+                const newFileList = new DataTransfer();
+                for (const [imageElement, fileName] of fileNamesMap.entries()) {
+                    if (imageElement.src !== selectedFileToRemove) {
+                        const file = new File([selectedFileToRemove], fileName);
+                        newFileList.items.add(file);
+                    }
+                }
+                imageInput.files = newFileList.files;
+            }
+        });
+    </script>
+<div th:replace="~{fragments::scripts}"></div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE HTML>-->
+<!--<html lang="en" xmlns:th = "https://www.thymeleaf.org/">-->
+<!--<head th:replace="~{fragments::head}">-->
+
+<!--<body>-->
+<!--    <div class="screen-overlay"></div>-->
+<!--    <aside class="navbar-aside" id="offcanvas_aside">-->
+<!--        <div class="aside-top">-->
+<!--&lt;!&ndash;            <a href="index.html" class="brand-wrap">&ndash;&gt;-->
+<!--&lt;!&ndash;                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--            <div>-->
+<!--                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <nav>-->
+<!--            <ul class="menu-aside">-->
+<!--                <li class="menu-item">-->
+<!--                    <a class="menu-link" th:href="@{index}"> <i class="icon material-icons md-home"></i>-->
+<!--                        <span class="text">Dashboard</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="menu-item active">-->
+<!--                    <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>-->
+<!--                        <span class="text">Products</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="menu-item ">-->
+<!--                    <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>-->
+<!--                        <span class="text" >Orders</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--&lt;!&ndash;                <li class="menu-item ">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="menu-link" th:href="@{/add-product}"> <i class="icon material-icons md-add_box"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <span class="text">Add product</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </li>&ndash;&gt;-->
+<!--                <li class="menu-item ">-->
+<!--                    <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>-->
+<!--                        <span class="text">Categories</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="menu-item">-->
+<!--                    <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>-->
+<!--                        <span class="text">Customers</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--            <br>-->
+<!--            <br>-->
+<!--        </nav>-->
+<!--    </aside>-->
+<!--    <main class="main-wrap">-->
+<!--        <header th:replace="~{fragments :: header}"></header>-->
+<!--        <section class="content-main">-->
+<!--            <div class="container-fluid">-->
+<!--                <form class="form-horizontal" th:action="@{/update-product/{id}(id = ${productDto.id})}" method="POST" th:object = "${productDto}"-->
+<!--                      enctype="multipart/form-data">-->
+<!--                    <fieldset>-->
+<!--                        &lt;!&ndash; Form Name &ndash;&gt;-->
+<!--                        <legend>UPDATE PRODUCT</legend>-->
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="product_name">Product Name</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <input id="product_name" readonly th:field = "*{name}" name="product_name" class="form-control input-md"  type="text" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="brand">Brand Name</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <input id="brand" th:field = "*{brand}" name="brand" class="form-control input-md"  type="text" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
+<!--                        &lt;!&ndash; Select Basic &ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="product_categories">PRODUCT CATEGORY</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <select id="product_categories" th:field = "*{category}" name="product_categories" class="form-control" required>-->
+<!--                                    <option th:value = "null">-SELECT-</option>-->
+<!--                                    <option th:each = "category : ${categories}"-->
+<!--                                            th:value = "${category.id}"-->
+<!--                                            th:text = "${category.name}">-->
+<!--                                    </option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="shortDescription">Short Description</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <input id="ShortDescription" th:field = "*{shortDescription}" name="shortDescription" class="form-control input-md"  type="text" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="longDescription">Long Description</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <input id="LongDescription" th:field = "*{longDescription}" name="longDescription" class="form-control input-md"  type="text" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label">Sizes</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <div th:each="size : ${sizes}">-->
+<!--                                    <input type="checkbox" name="productVariations" th:field="*{sizes}"-->
+<!--                                           th:id="'color_id' + ${size.id}"-->
+<!--                                           th:name="'sizes'"-->
+<!--                                           th:value="${size.id}"/>-->
+<!--                                    <label th:for="'size' + ${size.id}" th:text="${size.name}"></label>-->
+<!--                                    <br/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="available_quantity">AVAILABLE QUANTITY</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <input id="available_quantity" th:field = "*{currentQuantity}" name="available_quantity" class="form-control input-md"  type="text" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="costprice">COST PRICE</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <input id="costprice" name="costprice" th:field = "*{costPrice}" class="form-control input-md" type="text" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="col-md-4 control-label" for="salesPrice">SALE PRICE</label>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <input id="salesPrice" name="salesPrice" th:field = "*{salePrice}" class="form-control input-md" type="text" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Text input&ndash;&gt;-->
+<!--               &lt;!&ndash;         Old one              &ndash;&gt;-->
+<!--                        <div class="form-group">-->
+<!--                            <div class="col-md-6">-->
+<!--                                &lt;!&ndash; File Button &ndash;&gt;-->
+<!--                                <div class="form-group">-->
+<!--                                    <div style="display: flex; flex-wrap: nowrap; overflow-x: auto; margin-bottom: 10px; ">-->
+<!--                                    <div th:if="${imagesize>=0}" th:each="index: ${#numbers.sequence(0,imagesize)}" class="image-container">-->
+<!--&lt;!&ndash;                                        <img class = "my-product-image" style="height: 80px; width: 80px;" alt="product-image" th:field="*{image}"  th:src="@{|/imgs/images/${productDto.image[__${index}__].getName()}|}">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <a  th:href="@{/delete-image/{imageName}/{id}(imageName = ${productDto.image[__${index}__].getName()},id=${productDto.id})}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                             onclick="if (!(confirm('Are you sure you want to Delete this Product?'))) return false"><i class="material-icons md-close"></i></a>&ndash;&gt;-->
+<!--                                        <a  th:href="@{/delete-image/{imageName}/{id}(imageName = ${productDto.image[__${index}__].getName()},id=${productDto.id})}"-->
+<!--                                            onclick="if (!(confirm('Are you sure you want to Delete this Product?'))) return false">-->
+<!--                                            <img  class = "my-product-image" style="height: 80px; width: 80px; margin-left: 10px; margin-right: 10px;" alt="product-image" th:field="*{image}"  th:src="@{|/imgs/images/${productDto.image[__${index}__].getName()}|}">-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="image-preview horizontal-preview" style="max-width: 200px;max-height: 200px; display: flex; flex-wrap: nowrap;overflow-x: auto; "></div>-->
+<!--                                    <div class="">-->
+<!--                                        &lt;!&ndash; File Button &ndash;&gt;-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label class="col-md-6 control-label" for="image">PRODUCT IMAGE</label>-->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <input id="image" name="imageProduct"  class="input-file my-3" type="file" accept="image/*" multiple >-->
+<!--                                                <div id="file-names" hidden="hidden"></div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                            </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <button type="submit" class=" file-uploader__submit-button btn btn-primary">Update</button>-->
+<!--                    </fieldset>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </section> &lt;!&ndash; content-main end// &ndash;&gt;-->
+<!--        <footer th:replace="~{fragments :: footer}">-->
+<!--        </footer>-->
+<!--    </main>-->
+<!--    <script>-->
+<!--        //     preview small js-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            const imageInput = document.getElementById('image');-->
+<!--            const imagePreview = document.querySelector('.image-preview');-->
+<!--            const fileNames = document.getElementById('file-names');-->
+<!--            const fileNamesMap = new Map(); // Map to store image element and its file name-->
+
+<!--            imageInput.addEventListener('change', function(event) {-->
+<!--                const selectedFiles = event.target.files;-->
+<!--                const maxImages = 5;-->
+<!--                const minImages = 1;-->
+<!--                let currentImageCount = imagePreview.childElementCount;-->
+
+<!--                if (selectedFiles.length + currentImageCount > maxImages) {-->
+<!--                    alert(`You can only upload up to ${maxImages} images.`);-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                for (let i = 0; i < selectedFiles.length; i++) {-->
+<!--                    const selectedFile = selectedFiles[i];-->
+<!--                    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];-->
+
+<!--                    if (selectedFile) {-->
+<!--                        const fileName = selectedFile.name;-->
+<!--                        const fileExtension = fileName.split('.').pop().toLowerCase();-->
+
+<!--                        if (!allowedExtensions.includes(fileExtension)) {-->
+<!--                            alert(`Error: '${fileName}' has an unsupported file type.`);-->
+<!--                            continue; // Skip to the next file-->
+<!--                        }-->
+
+<!--                        const imageContainer = document.createElement('div');-->
+<!--                        imageContainer.classList.add('image-container');-->
+
+<!--                        const imageElement = document.createElement('img');-->
+<!--                        imageElement.src = URL.createObjectURL(selectedFile);-->
+<!--                        imageElement.classList.add('preview-image');-->
+<!--                        imageElement.setAttribute('data-filename', fileName); // Store file name as data attribute-->
+
+<!--                        imageElement.addEventListener('click', function() {-->
+<!--                            const confirmed = confirm('Are you sure you want to deselect this image?');-->
+<!--                            if (confirmed) {-->
+<!--                                imageContainer.remove(); // Remove only the container of the clicked image-->
+<!--                                fileNamesMap.delete(imageElement); // Remove the image element from the map-->
+<!--                                currentImageCount&#45;&#45;;-->
+<!--                                updateFileNames();-->
+<!--                                decrementInputValue(selectedFile);-->
+<!--                            }-->
+<!--                        });-->
+
+<!--                        imageContainer.appendChild(imageElement);-->
+<!--                        imagePreview.appendChild(imageContainer);-->
+
+<!--                        fileNamesMap.set(imageElement, fileName); // Store image element and its file name-->
+
+<!--                        currentImageCount++;-->
+<!--                    }-->
+<!--                }-->
+
+<!--                if (currentImageCount > maxImages) {-->
+<!--                    alert(`You can only upload up to ${maxImages} images.`);-->
+<!--                    // Clear the input value to prevent uploading more than the allowed limit.-->
+<!--                    imageInput.value = '';-->
+<!--                    return;-->
+<!--                } else if (currentImageCount < minImages) {-->
+<!--                    alert(`You need to upload at least ${minImages} image.`);-->
+<!--                    // Clear the input value to prevent uploading fewer than the required images.-->
+<!--                    imageInput.value = '';-->
+<!--                }-->
+
+<!--                // Assign names to the selectedFile objects-->
+<!--                updateFileNames();-->
+<!--            });-->
+
+<!--            function updateFileNames() {-->
+<!--                fileNames.innerHTML = ''; // Clear previous names-->
+
+<!--                for (const [imageElement, fileName] of fileNamesMap.entries()) {-->
+<!--                    const fileNameElement = document.createElement('div');-->
+<!--                    fileNameElement.textContent = fileName;-->
+<!--                    fileNames.appendChild(fileNameElement);-->
+<!--                }-->
+<!--            }-->
+
+<!--            function decrementInputValue(selectedFileToRemove) {-->
+<!--                const newFileList = new DataTransfer();-->
+<!--                for (const [imageElement, fileName] of fileNamesMap.entries()) {-->
+<!--                    if (imageElement.src !== selectedFileToRemove) {-->
+<!--                        const file = new File([selectedFileToRemove], fileName);-->
+<!--                        newFileList.items.add(file);-->
+<!--                    }-->
+<!--                }-->
+<!--                imageInput.files = newFileList.files;-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+<!--    <div th:replace="~{fragments::scripts}"></div>-->
+<!--</body>-->
+
+<!--</html>-->

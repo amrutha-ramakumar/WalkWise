@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::head_sec}"></head>
+
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::signin-side-header}"></div>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html" rel="nofollow">Home</a>
+                <span></span> Pages
+                <span></span> VerifyEmail
+            </div>
+        </div>
+    </div>
+    <section class="pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <div style="margin-left: 35%;" class="col-lg-5">
+                            <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                <div class="padding_eight_all bg-white">
+<!--                                    <div class="heading_s1">-->
+<!--                                        <h3 class="mb-30">Login</h3>-->
+<!--                                    </div>-->
+                                    <form th:action="@{/sendVerificationEmailOtp}" method="post" >
+
+
+                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                            <span class="h1 fw-bold mb-0"></span>
+                                        </div>
+
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Enter Email</h5>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="email" id="form2Example17" class="form-control form-control-lg" name="email" />
+<!--                                            <label class="form-label" for="form2Example17">Enter email</label>-->
+                                        </div>
+
+
+                                        <div  th:if="${param.error}">
+                                            <div class="alert alert-danger col=xs-offset-1 col-xs-10">
+                                                Sorry: enter valid email</div>
+
+                                        </div>
+
+                                        <div th:if="${param.existUser}">
+                                            <div class="alert alert-danger">email already exist !</div>
+                                        </div>
+
+
+                                        <div class="pt-1 mb-4">
+<!--                                            <button class="btn btn-lg btn-block text-light" type="submit" style="background-color: #088178;">Submit</button>-->
+                                            <button class="btn btn-lg btn-block text-light"
+                                                    type="submit" style="background-color: #088178;"
+                                                    onclick="disableButton()">Submit</button>
+                                        </div>
+                                        <a th:href="@{/}">Back to Home</a><br>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<!-- Preloader Start -->
+<div th:replace="~{fragments::pre-loader}"></div>
+
+<!-- Vendor JS-->
+<div th:replace="~{fragments::scripts}"></div>
+<!-- Button disable  JS -->
+<script>
+    function disableButton() {
+        var button = document.getElementById("verificationForm").querySelector("button");
+        button.disabled = true;
+    }
+</script>
+</body>
+
+</html>

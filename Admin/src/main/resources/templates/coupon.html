@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments::head}"></head>
+
+
+<body>
+
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <!--            <a href="index.html" class="brand-wrap">-->
+        <!--                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+        <!--            </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link active" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+<main class="main-wrap">
+    <header th:replace="~{fragments :: header}"></header>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Coupons</h2>
+                <p>Add, edit or delete a coupon</p>
+                <p th:if="${size == 0} ">No Coupon</p>
+
+            </div>
+            <div>
+                <a type="button" class="btn btn-primary btn-sm rounded"  th:href="@{/addCoupon}">Add new</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Coupen Code</th>
+                                    <th>Offer Percentage</th>
+                                    <th>Start Date</th>
+                                    <th>Minimum Order Amount</th>
+                                    <th>Maximum Offer Price</th>
+                                    <th>available coupen</th>
+                                    <th>Expire Date</th>
+                                    <th>Update</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody  th:if = "${size > 0}">
+                                <tr th:each="couponData: ${coupons}" >
+                                    <td>
+                                    <span class="badge badge-pill badge-soft-success" th:if="${couponData.enabled==true && couponData.isExpired()==false}">Active</span>
+                                    <span class="badge badge-pill badge-soft-danger" th:if="${couponData.enabled==false && couponData.isExpired()==false}">Blocked </span>
+                                    <span class="badge badge-pill badge-soft-pink" th:if="${couponData.isExpired()==true}">Expired</span>
+                                    </td>
+                                    <td th:text="${couponData.couponcode}"></td>
+                                    <td th:text="${couponData.offerPercentage}"></td>
+                                    <td th:text="${couponData.startDate}"></td>
+                                    <td th:text="${couponData.minimumOrderAmount}"></td>
+                                    <td th:text="${couponData.maximumOfferAmount}"></td>
+                                    <td th:text="${couponData.count}"></td>
+                                    <td th:text="${couponData.expireDate}"></td>
+                                    <td><a class="btn btn-brand" th:href="@{/editCoupon(couponId=${couponData.id})}">Edit</a></td>
+                                    <td>
+<!--                                        <a class="btn btn-danger"  th:if="${couponData.enabled==true && couponData.isExpired()==false}" onclick="if (!(confirm('Are you sure you want to Disable this coupon?'))) return false"-->
+<!--                                        th:href="@{/disableCoupon(couponId=${couponData.id})}">Disable </a>-->
+<!--                                        <a class="btn btn-brand"  th:if="${couponData.enabled==false && couponData.isExpired()==false}" onclick="if (!(confirm('Are you sure you want to Enable this coupon?'))) return false"-->
+<!--                                           th:href="@{/enableCoupon(couponId=${couponData.id})}">Enable </a>-->
+                                        <a class="btn btn-danger" th:if="${couponData.enabled==true && couponData.isExpired()==false}"
+                                           onclick="return confirmCouponAction(event, this, 'Disable', 'Are you sure you want to disable this coupon?')"
+                                           th:href="@{/disableCoupon(couponId=${couponData.id})}">Disable</a>
+
+                                        <a class="btn btn-brand" th:if="${couponData.enabled==false && couponData.isExpired()==false}"
+                                           onclick="return confirmCouponAction(event, this, 'Enable', 'Are you sure you want to enable this coupon?')"
+                                           th:href="@{/enableCoupon(couponId=${couponData.id})}">Enable</a>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> <!-- .col// -->
+                </div> <!-- .row // -->
+            </div> <!-- card body .// -->
+        </div> <!-- card .// -->
+        <!-- Add category-->
+
+
+    </section> <!-- content-main end// -->
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+</main>
+<!--</div>-->
+
+<div th:replace="~{fragments::scripts}"></div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmCouponAction(event, element, action, message) {
+        event.preventDefault(); // Prevent the default action
+        var actionUrl = element.getAttribute("href");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: message,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Yes, ${action} it!`,
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = actionUrl;
+            }
+        });
+        return false; // Prevent default action
+    }
+</script>
+
+
+</body>
+
+</html>

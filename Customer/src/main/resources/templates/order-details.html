@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head_sec}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::side-header}"></div>
+
+</div>
+
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/home}" rel="nofollow">Home</a>
+                <span></span> Pages
+                <span></span> Order
+            </div>
+        </div>
+    </div>
+    <section class="pt-80 pb-100">
+        <div class="container">
+            <div class="row">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Your Orders</h5>
+                    </div>
+                    <div class="card-body" >
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Unit Price</th>
+                                            <th>Quantity</th>
+                                            <th>Size</th>
+                                            <th class="text-end">Total</th>
+                                            <th class="text-end">Status</th>
+                                            <th class="text-end">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="order, iterStat : ${orderDetails}">
+                                            <td>
+                                                <a class="itemside" href="#">
+                                                    <div class="left">
+                                                        <img th:src="@{|/imgs/images/${order.product.image[0].getName()}|}" width="40" height="40" class="img-xs" alt="Item">
+                                                    </div>
+                                                    <div th:text="${order.product.name}" class="info"></div>
+                                                </a>
+                                            </td>
+                                            <td th:text="${order.unitPrice}"> $ </td>
+                                            <td th:text="${order.quantity}"> </td>
+                                            <td th:each="size:${sizes}" th:if="${size.id==iterStat.size}" th:text="${size.name}"> </td>
+                                            <td th:text="${order.totalPrice}" class="text-end"> $ </td>
+<!--check for iterstart-->
+                                            <!-- Status column with rowspan -->
+                                            <td class="text-end" th:if="${iterStat.index == 0}" th:rowspan="${orderDetails.size()}" th:text="${order.order.orderStatus}"> </td>
+
+                                            <!-- Action column with rowspan -->
+                                            <td class="text-end" th:if="${iterStat.index == 0}" th:rowspan="${orderDetails.size()}">
+<!--                                                <a href="#orders" class="btn-danger" th:if="${order.order.orderStatus == 'Pending' || order.order.orderStatus == 'Shipped'}" th:href="@{/cancelOrder(orderId=${order.order.id})}"-->
+<!--                                                onclick="if (!confirm('Are you sure want to Cancel This item')) return false">Cancel</a>-->
+
+                                                <!--<a href="#orders" class="btn-brand" style="color: #fff;" th:if="${order.order.orderStatus == 'Delivered'}" th:href="@{/returnOrder(orderId=${order.order.id})}"-->
+                                                <!-- onclick="if (!confirm('Are you sure want to return This item')) return false">Return</a>-->
+<!--                                                <a href="#orders" class="btn-warning" style="color: #fff;" th:if="${order.order.orderStatus == 'OrderPending'}" th:href="@{/rePay(orderId=${order.order.id})}"-->
+<!--                                                   onclick="if (!confirm('Are you sure want to repay this')) return false">Pay Now</a>-->
+
+                                                <a href="#" class="btn-danger cancel-btn" th:if="${order.order.orderStatus == 'Pending' || order.order.orderStatus == 'Shipped' }" th:attr="data-href=@{/cancelOrder(orderId=${order.order.id})}">
+                                                    Cancel
+                                                </a>
+
+                                                <a href="#orders" class="btn-brand" style="color: #fff;" th:if="${order.order.orderStatus == 'Delivered'}"
+                                                   th:href="@{/returnOrder(orderId=${order.order.id})}" th:data-delivery-date="${order.order.deliveryDate}"
+                                                   onclick="return confirmReturn(this)">Return</a>
+
+                                                <a href="#orders" class="btn-warning" style="color: #fff;" th:if="${order.order.orderStatus == 'OrderPending'}"
+                                                   th:href="@{/rePay(orderId=${order.order.id})}" onclick="return confirmRepay(this)">Pay Now</a>
+
+                                                <span href="#orders" class="text-brand" th:if="${order.order.orderStatus == 'Return Pending'}">Returned</span>
+                                                <span href="#orders" class="text-danger" th:if="${order.order.orderStatus == 'Cancel'}">Cancelled</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <article class="float-end">
+                                                    <dl class="dlist">
+                                                        <dt>Subtotal:</dt>
+                                                        <dd th:text="${order.grandTotalPrize}" >$</dd>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt>Free Shipping </dt>
+                                                        <dd></dd>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt>Grand total:</dt>
+                                                        <dd th:text="${order.grandTotalPrize}"> <b class="h5">$</b> </dd>
+                                                    </dl>
+                                                    <dl class="dlist">
+                                                        <dt class="text-muted">Status:</dt>
+                                                        <dd>
+                                                            <span th:if="${order.paymentMethod=='cash_on_Delivery' && order.orderStatus =='Delivered'}" class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <span th:if="${order.paymentMethod=='cash_on_Delivery' && order.orderStatus =='Shipped' || order.orderStatus =='Pending' }" class="badge rounded-pill alert-warning text-warning">Payment Pending</span>
+                                                            <span th:if="${order.paymentMethod=='wallet' && order.orderStatus =='Shipped'}" class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <span th:if="${order.paymentMethod=='wallet' && order.orderStatus =='Delivered'}" class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <span th:if="${order.paymentMethod=='online_payment' && order.orderStatus =='Shipped'}" class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <span th:if="${order.paymentMethod=='online_payment' && order.orderStatus =='Delivered'}" class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <span th:if="${order.paymentMethod=='paymentPending' && order.orderStatus =='OrderPending'}" class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                        </dd>
+                                                    </dl>
+                                                </article>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div> <!-- table-responsive// -->
+                                <a class="btn btn-primary" th:href="@{/order-tracking(orderId=${order.id})}">View Order Tracking</a>
+                            </div> <!-- col// -->
+
+                        </div>
+                    </div> <!-- card-body end// -->
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<div th:replace="~{fragments::scripts}"></div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Cancel button SweetAlert
+        var cancelButtons = document.querySelectorAll(".cancel-btn");
+        cancelButtons.forEach(function (cancelButton) {
+            cancelButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent the default action
+                var cancelUrl = this.getAttribute("data-href");
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to cancel this order?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, cancel it!',
+                    cancelButtonText: 'No, keep it'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = cancelUrl;
+                    }
+                });
+            });
+        });
+
+        // Return button SweetAlert
+        window.confirmReturn = function(element) {
+            var deliveryDate = new Date(element.getAttribute('data-delivery-date'));
+            var currentDate = new Date();
+            var timeDiff = currentDate - deliveryDate;
+            var dayDiff = timeDiff / (1000 * 3600 * 24);
+
+            if (dayDiff <= 10) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you really want to return this item?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, return it!',
+                    cancelButtonText: 'No, keep it'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = element.getAttribute('href');
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Return not allowed',
+                    text: 'You can only return the item within 10 days after the delivery date.'
+                });
+                return false;
+            }
+            return false; // Prevent default action
+        }
+
+        // Pay Now button SweetAlert
+        window.confirmRepay = function(element) {
+            event.preventDefault(); // Prevent the default action
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you really want to repay this?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, repay it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = element.getAttribute('href');
+                }
+            });
+            return false; // Prevent default action
+        }
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const table = document.getElementById("orderTable");
+        const orderRows = Array.from(table.querySelectorAll("tbody tr"));
+        const orderCounts = {};
+
+        // Count the occurrences of each order ID
+        orderRows.forEach(row => {
+            const orderId = row.querySelector(".order-id").innerText.trim();
+            if (!orderCounts[orderId]) {
+                orderCounts[orderId] = 0;
+            }
+            orderCounts[orderId]++;
+        });
+
+        let previousOrderId = null;
+
+        // Merge cells by applying rowspan and removing duplicate order ID cells
+        orderRows.forEach(row => {
+            const orderIdCell = row.querySelector(".order-id");
+            const orderId = orderIdCell.innerText.trim();
+
+            if (orderId === previousOrderId) {
+                orderIdCell.remove();
+            } else {
+                if (orderCounts[orderId] > 1) {
+                    orderIdCell.setAttribute("rowspan", orderCounts[orderId]);
+                }
+                previousOrderId = orderId;
+            }
+        });
+    });
+</script>
+</body>
+</html>

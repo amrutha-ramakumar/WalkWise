@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments::head}">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/imgs/theme/}">
+    <!-- Template CSS -->
+</head>
+<body>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+<!--        <a href="index.html" class="brand-wrap">-->
+<!--            <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+<!--        </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" th:href="@{/orderDetails/0} "> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+<main class="main-wrap">
+
+    <header th:replace="~{fragments :: header}"></header>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order detail</h2>
+            <p >Details for Order ID:<span th:text="${order.id}"></span> </p>
+        </div>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                            <span>
+                                <i class="material-icons md-calendar_today"></i> <b th:text="${order.orderDate}"></b>
+                            </span> <br>Order ID:
+                    <small class="text-muted" th:text="${order.id}"> </small>
+                </div>
+                <form th:action="@{/updateStatus}" th:object="${order1}" method="post">
+                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                        <input type="hidden" th:field="*{id}">
+                        <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" name="orderStatus" th:field="*{orderStatus}">
+                            <option th:value="null">Order Status</option>
+                            <option th:if="${order1.orderStatus=='Return Pending'}" value="Return Accept" >Return accept</option>
+
+                            <option th:if="${order1.orderStatus=='Pending'}" value="Shipped">Shipped</option>
+                            <option th:if="${order1.orderStatus=='Pending' || order1.orderStatus=='Shipped'}" value="Delivered">Delivered</option>
+                            <option th:if="${order1.orderStatus=='Pending'}" value="Cancel">Cancel</option>
+
+                        </select>
+
+                        <!-- Hidden input field to capture the selected status -->
+
+
+                        <input type="submit" value="Save" class="btn btn-primary">
+<!--                        <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>-->
+                    </div>
+                </form>
+
+            </div>
+        </header> <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-person"></i>
+                                </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer</h6>
+                            <p class="mb-1" th:text="${order.customer.name}"></p>
+                            <p class="mb-1" th:text="${order.customer.email}"></p>
+                            <p class="mb-1" th:text="${order.customer.mobile}"></p>
+                            <a href="#">View profile</a>
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-local_shipping"></i>
+                                </span>
+                        <div class="text">
+                            <h6 class="mb-1">Order info</h6>
+                            <p class="mb-1" > Payment Method:<span th:text="${order.paymentMethod}"></span></p>
+                            <p class="mb-1" >order Satus:<span th:text="${order.orderStatus}"></span></p>
+                            <p class="mb-1" > Order Date:<span th:text="${order.orderDate}"></span></p>
+
+<!--                            <a href="#">Download info</a>-->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                                <span class="icon icon-sm rounded-circle bg-primary-light">
+                                    <i class="text-primary material-icons md-place"></i>
+                                </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1" th:text="${order.shippingAddress.addressLine1}"></p>
+                            <p class="mb-1" th:text="${order.shippingAddress.addressLine2}"></p>
+                            <p class="mb-1" th:text="${order.shippingAddress.city}"></p>
+                            <p class="mb-1" th:text="${order.shippingAddress.district}"></p>
+                            <p class="mb-1" th:text="${order.shippingAddress.state}"></p>
+                            <p class="mb-1" th:text="${order.shippingAddress.country}"></p>
+                            <p class="mb-1" th:text="${order.shippingAddress.pincode}"></p>
+                            <a href="#">View profile</a>
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+            </div> <!-- row // -->
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th width="40%">Product</th>
+                                <th width="20%">Unit Price</th>
+                                <th width="20%">Quantity</th>
+
+                                <th width="20%" class="text-end">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="orders: ${orderDetails}">
+                                <td>
+                                    <a class="itemside" href="#">
+                                        <div class="left">
+                                            <img th:src="@{|/imgs/images/${orders.product.image[0].getName()}|}" width="40" height="40" class="img-xs" alt="Item">
+                                        </div>
+                                        <div th:text="${orders.product.name}" class="info">  </div>
+                                    </a>
+                                </td>
+                                <td th:text="${orders.unitPrice}"> $ </td>
+                                <td th:text="${orders.quantity}">  </td>
+                                <td th:text="${orders.totalPrice}" class="text-end"> $ </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td colspan="4">
+                                    <article class="float-end">
+                                        <dl class="dlist">
+                                            <dt>Subtotal:</dt>
+                                            <dd th:text="${order.grandTotalPrize}" >$</dd>
+                                        </dl>
+                                        <dl class="dlist">
+                                            <dt>Free Shipping </dt>
+                                            <dd></dd>
+                                        </dl>
+                                        <dl class="dlist">
+                                            <dt>Grand total:</dt>
+                                            <dd th:text="${order.grandTotalPrize}"> <b class="h5">$</b> </dd>
+                                        </dl>
+                                        <dl class="dlist">
+                                            <dt class="text-muted">Status:</dt>
+                                            <dd>
+                                                <span th:if="${order.paymentMethod=='cash_on_Delivery' && order.orderStatus =='Delivered'}" class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                <span th:if="${order.paymentMethod=='cash_on_Delivery' && order.orderStatus =='Shipped' || order.orderStatus =='Pending' }" class="badge rounded-pill alert-warning text-warning">Payment Pending</span>
+                                                <span th:if="${order.paymentMethod=='cash_on_Delivery' && order.orderStatus =='Cancel'  }" class="badge rounded-pill alert-danger text-danger">Product Cancelled</span>
+                                            </dd>
+                                        </dl>
+                                    </article>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- table-responsive// -->
+                    <a class="btn btn-primary" th:href="@{/order-tracking-admin(orderId=${order.id})}">View Order Tracking</a>
+                </div> <!-- col// -->
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4">
+                    <div class="box shadow-sm bg-light">
+                        <h6 class="mb-15">Payment info</h6>
+                        <p>
+                            Business name: Walkwise  Pvt Ltd<br>
+                            Phone: +91 7382939183
+                        </p>
+                    </div>
+                    <div class="h-25 pt-4">
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
+                        </div>
+                        <button class="btn btn-primary">Save note</button>
+                    </div>
+                </div> <!-- col// -->
+            </div>
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+</section> <!-- content-main end// -->
+</main>
+<footer th:replace="~{fragments :: footer}">
+</footer>
+</main>
+<div th:replace="~{fragments::scripts}"></div>
+</body>
+</html>

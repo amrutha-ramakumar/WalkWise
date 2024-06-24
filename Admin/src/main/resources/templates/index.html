@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::head}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+<!--                        <a href="index.html" class="brand-wrap" hidden="">-->
+<!--                            <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+<!--                        </a>-->
+            <div>
+                <button class="btn btn-icon btn-aside-minimize" > <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside ">
+                <li class="menu-item active">
+                    <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Customers</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+                 </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text" >Orders</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                        <span class="text">Offers</span>
+                    </a>
+                </li>
+            </ul>
+            <br>
+            <br>
+        </nav>
+    </aside>
+
+<!--  Main  -->
+    <main class="main-wrap">
+        <header th:replace="~{fragments :: header}"></header>
+<!--   Section     -->
+        <section class="content-main pl-10">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Dashboard </h2>
+                    <p>Whole data about your business here</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Revenue</h6>
+                                <span th:text="${currentYearlyEarning}"></span>
+                                <span class="text-sm" th:text="${currentYear}">
+
+                                </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Orders</h6> <span th:text="${totalOrders}"></span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-body mb-4">
+                        <article class="icontext">
+                            <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                            <div class="text">
+                                <h6 class="mb-1 card-title">Monthly Revenue</h6> <span th:text="${currentMonthEarning}"></span>
+                                <span class="text-sm" th:text="${currentMonth}">
+
+                                </span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart-->
+            <div class="row">
+                <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                        <button class="btn btn-primary" onclick="showDaily()">Daily</button>
+                        <button class="btn btn-primary"  onclick="showMonthly()">Monthly</button>
+                        <button class="btn btn-primary" onclick="showYearly()">Yearly</button>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body" >
+                        <div class="chart-area" >
+                            <canvas id="salesChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4" id="paymentMethodPieChart">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Revenue - Payment Methods</h6>
+                        </div>
+                        <div class="card-body" th:attr="data-totalPrice-byPayment=${totalPriceByPayment}" style="height: 360px;">
+                            <div class="chart-pie pt-4 pb-2 ">
+                                <canvas id="myPieChart" height="200" width="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card shadow mb-4">
+                    <h2>Top 10 Best Selling Products</h2>
+                    <table class="table table-bordered table-hover">
+                        <thead class="bg-primary-light card-header">
+                        <tr>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Total Sold</th>
+                        </tr>
+                        </thead>
+                        <tbody class="card-body">
+                        <tr th:each="product, iter : ${topSellingProducts}">
+                            <td th:text="${iter.index + 1}"></td>
+                            <td th:text="${product.productName}"></td>
+                            <td th:text="${product.totalSold}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card shadow ml-4">
+                    <h2>Top 10 Best Selling Categories</h2>
+                    <table class="table table-bordered table-hover">
+                        <thead class="bg-primary-light card-header">
+                        <tr>
+                            <th>Rank</th>
+                            <th>Category Name</th>
+                            <th>Total Sold</th>
+                        </tr>
+                        </thead>
+                        <tbody class="card-body">
+                        <tr th:each="category, iter : ${topSellingCategories}">
+                            <td th:text="${iter.index + 1}"></td>
+                            <td th:text="${category.categoryName}"></td>
+                            <td th:text="${category.totalSold}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section> <!-- content-main end// -->
+
+<!--   footer     -->
+     <footer th:replace="~{fragments :: footer}"></footer>
+    </main>
+    <!-- content-main end// -->
+    <div th:replace="~{fragments::scripts}"></div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+            const monthlyLabels = /*[[${monthlyLabels}]]*/ [];
+            const monthlyData = /*[[${monthlyData}]]*/ [];
+            const dailyLabels = /*[[${dailyLabels}]]*/ [];
+            const dailyData = /*[[${dailyData}]]*/ [];
+            const yearlyLabels = /*[[${yearlyLabels}]]*/ [];
+            const yearlyData = /*[[${yearlyData}]]*/ [];
+
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            let salesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dailyLabels.map(date => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })),
+                    datasets: [{
+                        label: 'Sales',
+                        data: dailyData,
+                        backgroundColor: '#f78f8f', // Initial color for monthly
+                        borderColor: '#f78f8f',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            window.showMonthly = function() {
+                salesChart.data.labels = monthlyLabels.map(date => new Date(date).toLocaleDateString(undefined, { month: 'short' }));
+                salesChart.data.datasets[0].data = monthlyData;
+                salesChart.data.datasets[0].backgroundColor = '#79e0c5'; // Monthly color
+                salesChart.data.datasets[0].borderColor = '#79e0c5';
+                salesChart.update();
+                console.log(monthlyData);
+            }
+
+            window.showDaily = function() {
+                salesChart.data.labels = dailyLabels.map(date => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+                salesChart.data.datasets[0].data = dailyData;
+                salesChart.data.datasets[0].backgroundColor = '#f78f8f'; // Daily color
+                salesChart.data.datasets[0].borderColor = '#f78f8f';
+                salesChart.update();
+
+            }
+
+            window.showYearly = function() {
+                salesChart.data.labels = yearlyLabels.map(date => new Date(date).getFullYear());
+                salesChart.data.datasets[0].data = yearlyData;
+                salesChart.data.datasets[0].backgroundColor = '#5897fb'; // Yearly color
+                salesChart.data.datasets[0].borderColor = '#5897fb';
+                salesChart.update();
+            }
+        });
+        /*]]>*/
+    </script>
+
+    <script>
+        var backgroundColor = [
+            'rgba(255, 99, 132, 0.7)',  // Light Red
+            'rgba(75, 192, 192, 0.7)', // Light Green
+            'rgba(255, 206, 86, 0.7)', // Light Yellow
+        ];
+        var encodedDataElement = document.querySelector('[data-totalPrice-byPayment]');
+        if(encodedDataElement) {
+            var encodedData = encodedDataElement.getAttribute('data-totalPrice-byPayment');
+            var decodedData = decodeEntities(encodedData);
+
+            // Now you can parse the JSON data
+            var jsonData = JSON.parse(decodedData);
+
+            var labels = jsonData.map(function (item) {
+                return item.payMethod;
+            });
+
+            var data = jsonData.map(function (item) {
+                return item.amount;
+            });
+
+            var ctx = document.getElementById('myPieChart').getContext('2d');
+
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColor,
+                    }]
+                },
+                options: {
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                var dataset = data.datasets[0];
+                                var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                                    return previousValue + currentValue;
+                                });
+                                var currentValue = dataset.data[tooltipItem.index];
+                                var percentage = Math.round((currentValue / total) * 100);
+                                return percentage + "%";
+
+                            }
+                        }
+                    }
+                }
+            });
+        }else{
+            console.log('Element with data-totalPrice-byPayment attribute not found.');
+        }
+        function decodeEntities(encodedString) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return textArea.value;
+        }
+    </script>
+
+</body>
+
+</html>

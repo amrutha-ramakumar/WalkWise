@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}">
+
+<body>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+<!--        <a href="index.html" class="brand-wrap">-->
+<!--            <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+<!--        </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+<main class="main-wrap">
+    <header th:replace="~{fragments :: header}"></header>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Customers</h2>
+            </div>
+
+
+        </div>
+        <div class="container">
+
+            <p th:if="${size == 0} ">No Customer</p>
+            <div th:if = "${success}" class = "text-center alert alert-success">
+                <p th:text = "${success}"></p>
+            </div>
+            <div th:if = "${error}" class="text-center alert alert-danger">
+                <p th:text = "${error}"></p>
+            </div>
+            <table id="dataTable" class="table table-bordered" th:if = "${size > 0}">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phonenumber</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+<!--                th:class="${customer.blocked} ? 'blocked-row' : ''"-->
+                <tr th:each = "customer : ${customers}" >
+                    <th scope="row" th:text = "${customer.name}"></th>
+                    <td th:text = "${customer.email}"></td>
+                    <td th:text = "${customer.mobile}"></td>
+                    <td th:text = "${customer.password}"></td>
+                    <td>
+<!--                        <a th:if="${customer.activated} == true" th:href="@{/disable-customer/{id}(id = ${customer.customer_id})}"-->
+<!--                           class="btn btn-danger" onclick="if (!(confirm('Are you sure you want to Disable this customer?'))) return false">Disable</a>-->
+<!--                        <a th:if="${customer.activated} == false" onclick="if (!(confirm('Are you sure you want to Enable this customer?'))) return false" th:href="@{/enable-customer/{id}(id = ${customer.customer_id})}"-->
+<!--                           class=" btn btn-primary">Enable</a>-->
+                        <a th:if="${customer.activated} == true" th:href="@{/disable-customer/{id}(id=${customer.customer_id})}"
+                           class="btn btn-danger" onclick="return confirmCustomerAction(event, this, 'Disable', 'disable this customer')">Disable</a>
+                        <a th:if="${customer.activated} == false" th:href="@{/enable-customer/{id}(id=${customer.customer_id})}"
+                           class="btn btn-primary" onclick="return confirmCustomerAction(event, this, 'Enable', 'enable this customer')">Enable</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section> <!-- content-main end// -->
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmCustomerAction(event, element, action, message) {
+        event.preventDefault(); // Prevent the default action
+        var actionUrl = element.getAttribute("href");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `Do you really want to ${message}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Yes, ${action} it!`,
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = actionUrl;
+            }
+        });
+        return false; // Prevent default action
+    }
+</script>
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+<div th:replace="~{fragments::scripts}"></div>
+</body>
+
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head_sec}"></head>
+
+</head>
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::side-header}"></div>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/}" rel="nofollow">Home</a>
+                <span></span> Shop
+                <span></span> Checkout
+            </div>
+        </div>
+    </div>
+    <section class="mt-50 mb-50">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="divider mt-50 mb-50"></div>
+                </div>
+            </div>
+            <div th:if="${errorMessage}">
+                <p class = "alert alert-danger" th:text = "${errorMessage}"></p>
+            </div>
+            <div th:if="${param.expired}">
+                <div class="alert alert-danger"> !</div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="order_review">
+                        <div class="mb-20">
+                            <h4>Your Orders</h4>
+                        </div>
+                        <div class="table-responsive order_table text-center">
+                            <input class="hidden" id="orderId" th:value="${id}"/>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">Product</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="checkOut :${cartItem}">
+                                    <td class="image product-thumbnail"><img th:src="@{|/imgs/images/${checkOut.product.image[0].getName()}|}" alt="#"></td>
+                                    <td>
+                                        <h5><a href="shop-product-full.html" th:object="${checkOut.product.name}"></a></h5> <span class="product-qty" th:text="${checkOut.quantity}"></span>
+                                    </td>
+                                    <td th:text="${checkOut.totalPrice}">$</td>
+                                </tr>
+
+
+                                <tr>
+                                    <th>SubTotal</th>
+                                    <td class="product-subtotal total"  colspan="2" th:text="${total}">$</td>
+                                </tr>
+                                <tr>
+                                    <th>Shipping</th>
+                                    <td th:class="shoppingFee" th:text="${shippingFee}" colspan="2"></td>
+                                </tr>
+                                <tr th:if="${deduction>0}">
+                                    <th>Reduction</th>
+                                    <td class="deduction" colspan="2" th:text="${deduction}" ></td>
+                                </tr>
+                                <tr>
+                                    <th>Payable</th>
+                                    <td colspan="2" class="product-subtotal"><span class="font-xl text-brand fw-900 payment_field" id="payment_field" th:text="${payable}" th:value="${payable}">$</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                        <div class="mb-30 mt-50">
+                            <div class="heading_s1 mb-3">
+                                <h4>Apply Coupon</h4>
+                            </div>
+                            <div class="total-amount">
+                                <div class="left">
+                                    <div class="coupon" >
+                                        <form th:if="${couponRemoved}" th:action="@{/applyCoupon}" th:object="${coupon}" method="POST">
+                                            <div class="form-row row justify-content-center">
+                                                <div class="form-group col-lg-6">
+                                                    <input class="font-medium" th:field="*{couponcode}" name="couponcode" placeholder="Enter Your Coupon" th:disabled="${couponApplied}" />
+                                                </div>
+                                                <div class="form-group col-lg-6">
+                                                    <button class="btn btn-sm" type="submit" ><i class="fi-rs-label mr-10"></i>Apply</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <form th:action="@{/removeCoupon(couponid=${coupon.id})}" method="POST" th:if="${couponApplied}">
+                                            <button class="btn btn-danger btn-sm" type="submit">Remove Coupon</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--Address Details  -->
+
+                <div class="col-md-6">
+                    <div class="mt-20 mb-20">
+                        <a class="btn btn-primary" th:href="@{/addAddress}"> Add Address</a>
+                    </div>
+                  <!--  <form th:action="@{/placeOrder}" id="myForm" method="post">-->
+                        <div class="mb-25 mt-20">
+                            <h4>Address Details</h4>
+                            <div th:each="address : ${addresses} ">
+                                <div class="card mb-30">
+                                    <div class="card-header">
+
+                                        <input class="form-check-input selectCheckBox" type="radio" th:value="${address.id}" name="addressId" th:checked="${address.isdefault == true}" >
+                                        <h5 class="mb-0"><span th:text="${address.addressLine1}"></span></h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <address>
+
+                                            <span th:text="${address.addressLine2}"></span>,<br>
+                                            <span th:text="${address.city}"></span>,
+                                            <span th:text="${address.pincode}"></span> Ph:<span th:text="${customer.mobile}"></span>
+                                        </address>
+                                        <p><span th:text="${address.district}"></span>
+                                            <span th:text="${address.state}"></span></p>
+                                        <p><span th:text="${address.country}"></span></p>
+                                        <a th:href="@{/editAddress(addressId=${address.id})}" class="btn btn-danger">Edit</a>
+
+                                    </div>
+                                </div>
+                            </div >
+
+                        </div>
+                        <div class="payment_method">
+                            <div class="mb-25">
+                                <h5>Payment</h5>
+                            </div>
+                            <div class="payment_option">
+                                <div class="custome-radio">
+                                    <input class="form-check-input payment_option" required="" type="radio" name="payment_option" id="exampleRadios3"  th:value="cash_on_Delivery">
+                                    <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Cash on Delivery</label>
+                                    <div class="form-group collapse in" id="bankTranfer">
+                                        <p class="text-muted mt-5">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
+                                    </div>
+                                </div>
+                                <div class="custome-radio">
+                                    <input class="form-check-input payment_option" required="" type="radio" name="payment_option" id="exampleRadios4"  th:value="online_payment">
+                                    <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Online Payment</label>
+                                    <div class="form-group collapse in" id="checkPayment">
+                                        <p class="text-muted mt-5">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode. </p>
+                                    </div>
+                                </div>
+                                 <div class="custome-radio">
+                                     <input class="form-check-input payment_option" required="" type="radio" name="payment_option" id="exampleRadios5" th:value="wallet">
+                                     <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Wallet</label>
+                                     <div class="form-group collapse in" id="wallet">
+                                         <p class="text-muted mt-5"></p>
+                                     </div>
+                                 </div>
+                            </div>
+                        </div>
+                        <div th:if="${param.addressEmpty}">
+                            <div class="alert alert-danger">Please select the Address !</div>
+                        </div>
+                        <button type="submit" class="btn  btn-block mt-30" onclick="placeOrder()" >Place order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<!-- Preloader Start -->
+<!--<div th:replace="~{fragments::pre-loader}"></div>-->
+<!-- Vendor JS-->
+<div th:replace="~{fragments::scripts}"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+      /*  function displayRadioValue() {
+            document.getElementById('myForm').submit();
+
+        }*/
+    </script>
+<script>
+    function placeOrder(){
+        const checkedAddress = $('.selectCheckBox:checked').val();
+        const paymentMethod = $('.payment_option:checked').val();
+        const amount1Text = $('.payment_field').text().trim(); // Get the text content
+        const amount1 = parseFloat(amount1Text);
+        const total = $('.total').text();
+        const total1 = parseFloat(total);// Convert to a double
+        const deduction =$('.deduction').text().trim();
+        const  deduction1=parseFloat(deduction);
+        const couponAmount=isNaN(deduction1) ? 0 : deduction1;
+        const orderId=$('#orderId').val();
+
+        console.log(amount1)
+        console.log(paymentMethod)
+        console.log(couponAmount)
+        console.log(total1)
+        console.log(orderId)
+
+        if(checkedAddress  === undefined ){
+            alert("Please choose a shipping address!!")
+        }else{
+            const addressId =checkedAddress;
+            const payment_Method= paymentMethod;
+            let amount=Math.round(amount1);
+            let deduct=couponAmount;
+            paymentStart(addressId,payment_Method,amount,deduct,orderId,total1);
+        }
+    }
+    const paymentStart=(addressId,paymentMethod,amount,deduct,orderId,total)=>{
+        console.log(addressId)
+        console.log(paymentMethod)
+        console.log(amount)
+        console.log(deduct)
+        $.ajax({
+                url: '/shop/createPayment',
+                data: JSON.stringify({addressId: addressId, paymentMethod: paymentMethod,amount:amount,deduct:deduct,id: orderId,total: total}),
+                contentType: 'application/json',
+                type: 'POST',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')
+                },
+                success: function (response) {
+                    console.log(response)
+                    if(response.status === "created"){
+                        let options={
+                            key:'rzp_test_NeTo17DpgmKAdp',
+                            amount:response.amount,
+                            currency:'INR',
+                            name:'Walkwise',
+                            description:'Purchase order',
+                            order_id:response.id,
+                            handler:function (razorpayResponse){
+                                console.log("Payment response:", razorpayResponse);
+                                console.log("Razorpay Payment ID:", razorpayResponse.razorpay_payment_id);
+                                console.log("Razorpay Order ID:", razorpayResponse.razorpay_order_id);
+                                console.log("Razorpay Signature:", razorpayResponse.razorpay_signature);
+                                // location.href='/shop/orderConfirm';
+                                $.ajax({
+                                    url: orderId?'/shop/updateOrder':'/shop/saveOrder',
+                                    type: 'POST',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify({
+                                        addressId: addressId,
+                                        paymentMethod: paymentMethod,
+                                        amount: amount,
+                                        deduct: deduct,
+                                        total: total,
+                                        id: orderId,
+                                        razorpayPaymentId: razorpayResponse.razorpay_payment_id,
+                                        razorpayOrderId: razorpayResponse.razorpay_order_id,
+                                        razorpaySignature: razorpayResponse.razorpay_signature
+                                    }),
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')
+                                    },
+                                    success: function (orderResponse) {
+                                        console.log("Order saved successfully:", orderResponse);
+                                        location.href = '/shop/orderConfirm';
+                                    },
+                                    error: function (error) {
+                                        console.log("Error saving order:", error);
+                                        alert("Failed to save order. Please try again.");
+                                    }
+                                });
+                            },
+
+                            prefill:{
+                                name:"",
+                                email:"",
+                                contact:""
+                            },
+                            notes:{
+                                address:"My Shoe Payment"
+                            },
+                            theme: {
+                                color: "#3399cc"
+                            }
+                        };
+                        var rzp1 = new Razorpay(options);
+                        rzp1.open();
+                        rzp1.on('payment.failed', function (response){
+                            console.log(response.error.code);
+                            console.log(response.error.description);
+                            console.log(response.error.source);
+                            console.log(response.error.step);
+                            console.log(response.error.reason);
+                            console.log(response.error.metadata.order_id);
+                            console.log(response.error.metadata.payment_id);
+                            $.ajax({
+                                url: '/shop/paymentPending',
+                                type: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify({
+                                    addressId: addressId,
+                                    paymentMethod: paymentMethod,
+                                    amount: amount,
+                                    deduct: deduct,
+                                    total: total,
+                                    orderId: response.error.metadata.order_id
+                                }),
+                                headers: {
+                                    'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')
+                                },
+                                success: function (pendingResponse) {
+                                    console.log("Payment status updated as payment pending:", pendingResponse);
+                                    alert("Payment failed. Your order is now pending. Please try again later.");
+                                    // Redirect to checkout or wherever appropriate
+                                    window.location.href = '/shop/order?pageNo=0';
+                                },
+                                error: function (error) {
+                                    console.log("Error updating payment status as paymentPending:", error);
+                                    alert("Failed to mark as paymentPending. Please try again.");
+                                    window.location.href = '/shop/order?pageNo=0';
+                                }
+                            });
+                            // alert("Failed!! Oops Payment failed.Please try after some time");
+                        });
+                    }
+                    else if(response.status === "noCash"){
+                        alert("Sorry You can't choose cash on delivery because of your total amount is greater than 1000")
+                    }
+                    else if(response.status === "cash"){
+                        $.ajax({
+                            url: orderId?'/shop/updateOrder':'/shop/saveOrder',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                addressId: addressId,
+                                paymentMethod: paymentMethod,
+                                amount: amount,
+                                deduct: deduct,
+                                total: total,
+                                id: orderId
+                            }),
+                            headers: {
+                                'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')
+                            },
+                            success: function (orderResponse) {
+                                console.log("Order saved successfully:", orderResponse);
+                                location.href = '/shop/orderConfirm';
+                            },
+                            error: function (error) {
+                                console.log("Error saving order:", error);
+                                alert("Failed to save order. Please try again.");
+                            }
+                        });
+                        // location.href='/shop/orderConfirm';
+                    }
+                    else if(response.status === "noWallet") {
+                        alert("sorry! your wallet don't have enough balance to make this order");
+
+                    }
+                    else if(response.status === "wallet"){
+                        $.ajax({
+                            url: orderId?'/shop/updateOrder':'/shop/saveOrder',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                addressId: addressId,
+                                paymentMethod: paymentMethod,
+                                amount: amount,
+                                deduct: deduct,
+                                total: total,
+                                id: orderId
+                            }),
+                            headers: {
+                                'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')
+                            },
+                            success: function (orderResponse) {
+                                console.log("Order saved successfully:", orderResponse);
+                                location.href = '/shop/orderConfirm';
+                            },
+                            error: function (error) {
+                                console.log("Error saving order:", error);
+                                alert("Failed to save order. Please try again.");
+                            }
+                        });
+                        // location.href='/shop/orderConfirm';
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    alert("something went wrong!!")
+                }
+
+            }
+        )
+
+    }
+</script>
+<!--<script>-->
+<!--        function placeOrder(){-->
+<!--            const checkedAddress = $('.selectCheckBox:checked').val();-->
+<!--            const paymentMethod = $('.payment_option:checked').val();-->
+<!--            const amount1Text = $('.payment_field').text().trim(); // Get the text content-->
+<!--            const amount1 = parseFloat(amount1Text);-->
+<!--            const total = $('.total').text();-->
+<!--            const total1 = parseFloat(total);// Convert to a double-->
+<!--            const deduction =$('.deduction').text().trim();-->
+<!--            const  deduction1=parseFloat(deduction);-->
+<!--            const couponAmount=isNaN(deduction1) ? 0 : deduction1;-->
+<!--            const orderId=$('#orderId').val();-->
+
+<!--            console.log(amount1)-->
+<!--            console.log(paymentMethod)-->
+<!--            console.log(couponAmount)-->
+<!--            console.log(total1)-->
+<!--            console.log(orderId)-->
+
+<!--            if(checkedAddress  === undefined ){-->
+<!--                alert("Please choose a shipping address!!")-->
+<!--            }else{-->
+<!--                const addressId =checkedAddress;-->
+<!--                const payment_Method= paymentMethod;-->
+<!--                let amount=Math.round(amount1);-->
+<!--                let deduct=couponAmount;-->
+<!--                paymentStart(addressId,payment_Method,amount,deduct,orderId,total1);-->
+<!--            }-->
+<!--        }-->
+<!--        const paymentStart=(addressId,paymentMethod,amount,deduct,orderId,total)=>{-->
+<!--            console.log(addressId)-->
+<!--            console.log(paymentMethod)-->
+<!--            console.log(amount)-->
+<!--            console.log(deduct)-->
+<!--            $.ajax({-->
+<!--                    url: '/shop/createPayment',-->
+<!--                     data: JSON.stringify({addressId: addressId, paymentMethod: paymentMethod,amount:amount,deduct:deduct,id: orderId,total: total}),-->
+<!--                    contentType: 'application/json',-->
+<!--                    type: 'POST',-->
+<!--                    dataType: 'json',-->
+<!--                    headers: {-->
+<!--                        'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')-->
+<!--                    },-->
+<!--                    success: function (response) {-->
+<!--                        console.log(response)-->
+<!--                        if(response.status === "created"){-->
+<!--                            let options={-->
+<!--                                key:'rzp_test_NeTo17DpgmKAdp',-->
+<!--                                amount:response.amount,-->
+<!--                                currency:'INR',-->
+<!--                                name:'Walkwise',-->
+<!--                                description:'Purchase order',-->
+<!--                                order_id:response.id,-->
+<!--                                handler:function (razorpayResponse){-->
+<!--                                    console.log("Payment response:", razorpayResponse);-->
+<!--                                    console.log("Razorpay Payment ID:", razorpayResponse.razorpay_payment_id);-->
+<!--                                    console.log("Razorpay Order ID:", razorpayResponse.razorpay_order_id);-->
+<!--                                    console.log("Razorpay Signature:", razorpayResponse.razorpay_signature);-->
+<!--                                    // location.href='/shop/orderConfirm';-->
+<!--                                    $.ajax({-->
+<!--                                        url: orderId?'/shop/updateOrder':'/shop/saveOrder',-->
+<!--                                        type: 'POST',-->
+<!--                                        contentType: 'application/json',-->
+<!--                                        data: JSON.stringify({-->
+<!--                                            addressId: addressId,-->
+<!--                                            paymentMethod: paymentMethod,-->
+<!--                                            amount: amount,-->
+<!--                                            deduct: deduct,-->
+<!--                                            total: total,-->
+<!--                                            id: orderId,-->
+<!--                                            razorpayPaymentId: razorpayResponse.razorpay_payment_id,-->
+<!--                                            razorpayOrderId: razorpayResponse.razorpay_order_id,-->
+<!--                                            razorpaySignature: razorpayResponse.razorpay_signature-->
+<!--                                        }),-->
+<!--                                        headers: {-->
+<!--                                            'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')-->
+<!--                                        },-->
+<!--                                        success: function (orderResponse) {-->
+<!--                                            console.log("Order saved successfully:", orderResponse);-->
+<!--                                            location.href = '/shop/orderConfirm';-->
+<!--                                        },-->
+<!--                                        error: function (error) {-->
+<!--                                            console.log("Error saving order:", error);-->
+<!--                                            alert("Failed to save order. Please try again.");-->
+<!--                                        }-->
+<!--                                    });-->
+<!--                                },-->
+
+<!--                                prefill:{-->
+<!--                                    name:"",-->
+<!--                                    email:"",-->
+<!--                                    contact:""-->
+<!--                                },-->
+<!--                                notes:{-->
+<!--                                    address:"My Shoe Payment"-->
+<!--                                },-->
+<!--                                theme: {-->
+<!--                                    color: "#3399cc"-->
+<!--                                }-->
+<!--                            };-->
+<!--                            var rzp1 = new Razorpay(options);-->
+<!--                            rzp1.open();-->
+<!--                            rzp1.on('payment.failed', function (response){-->
+<!--                                console.log(response.error.code);-->
+<!--                                console.log(response.error.description);-->
+<!--                                console.log(response.error.source);-->
+<!--                                console.log(response.error.step);-->
+<!--                                console.log(response.error.reason);-->
+<!--                                console.log(response.error.metadata.order_id);-->
+<!--                                console.log(response.error.metadata.payment_id);-->
+<!--                                $.ajax({-->
+<!--                                    url: '/shop/paymentPending',-->
+<!--                                    type: 'POST',-->
+<!--                                    contentType: 'application/json',-->
+<!--                                    data: JSON.stringify({-->
+<!--                                        addressId: addressId,-->
+<!--                                        paymentMethod: paymentMethod,-->
+<!--                                        amount: amount,-->
+<!--                                        deduct: deduct,-->
+<!--                                        total: total,-->
+<!--                                        orderId: response.error.metadata.order_id-->
+<!--                                    }),-->
+<!--                                    headers: {-->
+<!--                                        'X-CSRF-TOKEN': $('[name="_csrf"]').attr('content')-->
+<!--                                    },-->
+<!--                                    success: function (pendingResponse) {-->
+<!--                                        console.log("Payment status updated as payment pending:", pendingResponse);-->
+<!--                                        alert("Payment failed. Your order is now pending. Please try again later.");-->
+<!--                                        // Redirect to checkout or wherever appropriate-->
+<!--                                        window.location.href = '/shop/order?pageNo=0';-->
+<!--                                    },-->
+<!--                                    error: function (error) {-->
+<!--                                        console.log("Error updating payment status as paymentPending:", error);-->
+<!--                                        alert("Failed to mark as paymentPending. Please try again.");-->
+<!--                                        window.location.href = '/shop/order?pageNo=0';-->
+<!--                                    }-->
+<!--                                });-->
+<!--                                // alert("Failed!! Oops Payment failed.Please try after some time");-->
+<!--                            });-->
+<!--                        }-->
+<!--                        else if(response.status === "noCash"){-->
+<!--                            alert("Sorry You can't choose cash on delivery because of your total amount is greater than 1000")-->
+<!--                        }-->
+<!--                        else if(response.status === "cash"){-->
+<!--                            location.href='/shop/orderConfirm';-->
+<!--                        }-->
+<!--                        else if(response.status === "noWallet") {-->
+<!--                            alert("sorry! your wallet don't have enough balance to make this order");-->
+
+<!--                        }-->
+<!--                        else if(response.status === "wallet"){-->
+<!--                            location.href='/shop/orderConfirm';-->
+<!--                        }-->
+<!--                    },-->
+<!--                    error: function (error) {-->
+<!--                        console.log(error)-->
+<!--                        alert("something went wrong!!")-->
+<!--                    }-->
+
+<!--                }-->
+<!--            )-->
+
+<!--        }-->
+<!--       /* function verifyPayment(payment){-->
+<!--            $.ajax({-->
+<!--                url:'/verify-payment',-->
+<!--                method: 'post',-->
+<!--                data:JSON.stringify(payment),-->
+<!--                contentType: 'application/json',-->
+<!--                dataType:'json',-->
+<!--                success:(response)=>{-->
+<!--                    if(response.status){-->
+<!--                        alert("congrats!! Payment successful");-->
+<!--                        location.href='/orderConfirm'-->
+<!--                    } else{-->
+<!--                        alert("Payment failed!")-->
+<!--                    }-->
+<!--                }-->
+<!--            });-->
+<!--        }*/-->
+
+<!--</script>-->
+
+
+</body>
+</html>

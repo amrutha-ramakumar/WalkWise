@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments::head}"></head>
+
+<body>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <!--            <a href="index.html" class="brand-wrap">-->
+        <!--                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+        <!--            </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link active" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+
+<main class="main-wrap">
+
+    <header th:replace="~{fragments :: header}"></header>
+    <section class="content-main">
+        <div class="row">
+            <div class="col-9">
+                <div class="content-header">
+                    <h2 class="content-title">Update coupon</h2>
+                    <div>
+                        <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                         <button class="btn btn-md rounded font-sm hover-up">Publich</button> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Product Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/updateCoupon}" th:object="${coupon}"   method="post">
+                                <input type="hidden" th:field="*{id}" th:value="${coupon.id}" >
+                            <div class="mb-4">
+                                <label  class="form-label">coupon Code</label>
+                                <input type="text" th:field="*{couponcode}"  name="couponCode"   class="form-control" readonly>
+                                <p style="color: red" th:if="${#fields.hasErrors('couponcode')}" th:errors="*{couponcode}"></p>
+
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">coupon Description</label>
+                                <input type="text" th:field="*{couponDescription}"  name="couponDescription"   class="form-control">
+                                <p style="color: red" th:if="${#fields.hasErrors('couponDescription')}" th:errors="*{couponDescription}"></p>
+
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">Offer Percentage</label>
+                                <input type="text" th:field="*{offerPercentage}"  name="offerPercentage"   class="form-control">
+                                <p style="color: red" th:if="${#fields.hasErrors('offerPercentage')}" th:errors="*{offerPercentage}"></p>
+
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">coupon count</label>
+                                <input type="text" th:field="*{count}"  name="count"   class="form-control">
+                                <p style="color: red" th:if="${#fields.hasErrors('count')}" th:errors="*{count}"></p>
+
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">Minimum Order Amount</label>
+                                <input type="text" th:field="*{minimumOrderAmount}"  name="minimumOrderAmount"   class="form-control">
+                                <p style="color: red" th:if="${#fields.hasErrors('minimumOrderAmount')}" th:errors="*{minimumOrderAmount}"></p>
+
+                            </div>
+                            <div class="mb-4">
+                                <label  class="form-label">Maximum offer in Rs.</label>
+                                <input type="text" th:field="*{maximumOfferAmount}"  name="maximumOfferAmount"   class="form-control">
+                                <p style="color: red" th:if="${#fields.hasErrors('maximumOfferAmount')}" th:errors="*{maximumOfferAmount}"></p>
+
+                            </div>
+                            <div class="form-group"> <!-- Date input -->
+                                <div class="col-lg-6">
+                                    <div class="mb-4">
+                                        <label class="form-label">Start Date</label>
+                                        <input class="form-control"   name="startDate"  type="date"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-4">
+                                        <label class="form-label">Expire Date</label>
+                                        <input class="form-control"   name="expireDate"  type="date"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div> <!-- card end// -->
+            </div>
+        </div>
+    </section> <!-- content-main end// -->
+    <footer th:replace="~{fragments :: footer}"></footer>
+</main>
+
+<div th:replace="~{fragments::scripts}"></div>
+</body>
+
+</html>

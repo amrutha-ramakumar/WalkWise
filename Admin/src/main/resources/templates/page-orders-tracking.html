@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments::head}">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/imgs/theme/}">
+    <!-- Template CSS -->
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <!--        <a href="index.html" class="brand-wrap">-->
+            <!--            <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+            <!--        </a>-->
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Customers</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" th:href="@{/orderDetails/0} "> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text" >Orders</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                        <span class="text">Offers</span>
+                    </a>
+                </li>
+            </ul>
+            <br>
+            <br>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header th:replace="~{fragments :: header}"></header>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Order Tracking</h2>
+                    <p>Details for Order ID: <span th:text="${order.idOrders}"></span></p>
+                </div>
+            </div>
+            <div class="card">
+                <header class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                            <span>
+                                <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2022, 4:34PM</b>
+                            </span> <br>
+                            <small class="text-muted">Order ID: <span th:text="${order.idOrders}"></span></small> <br>
+                            <small class="text-muted" th:if="${order.orderStatus=='Delivered'}">Your order has been delivered</small>
+                        </div>
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="order-tracking mb-100">
+                        <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between">
+                            <div th:class="${order.orderStatus == 'Shipped' || order.orderStatus == 'Delivered' || order.orderStatus == 'Pending' || order.orderStatus == 'Return Pending' || order.orderStatus == 'Return Accept' || order.orderStatus == 'Cancel'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-shopping_cart"></i></div>
+                                </div>
+                                <h4 class="step-title">Confirmed Order</h4>
+                            </div>
+                            <div th:class="${order.orderStatus == 'Shipped' || order.orderStatus == 'Delivered' || order.orderStatus == 'Pending' || order.orderStatus == 'Return Pending' || order.orderStatus == 'Return Accept' || order.orderStatus == 'Cancel'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-settings"></i></div>
+                                </div>
+                                <h4 class="step-title">Processing Order</h4>
+                            </div>
+                            <div th:class="${order.orderStatus == 'Shipped' || order.orderStatus == 'Delivered' || order.orderStatus == 'Pending' || order.orderStatus == 'Return Pending' || order.orderStatus == 'Return Accept' || order.orderStatus == 'Cancel'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-shopping_bag"></i></div>
+                                </div>
+                                <h4 class="step-title">Quality Check</h4>
+                            </div>
+                            <div th:class="${order.orderStatus == 'Shipped' || order.orderStatus == 'Delivered' || order.orderStatus == 'Return Pending' || order.orderStatus == 'Return Accept' || order.orderStatus == 'Cancel'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-local_shipping"></i></div>
+                                </div>
+                                <h4 class="step-title">Product Dispatched</h4>
+                            </div>
+                            <div th:if="${order.orderStatus == 'Cancel'}" th:class="${order.orderStatus == 'Cancel'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-cancel"></i></div>
+                                </div>
+                                <h4 class="step-title">Product Cancelled</h4>
+                            </div>
+                            <div th:class="${order.orderStatus == 'Delivered' || order.orderStatus == 'Return Pending' || order.orderStatus == 'Return Accept'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-check_circle"></i></div>
+                                </div>
+                                <h4 class="step-title">Product Delivered</h4>
+                            </div>
+                            <div th:if="${order.orderStatus == 'Return Pending'}" th:class="${order.orderStatus == 'Return Pending'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-refresh"></i></div>
+                                </div>
+                                <h4 class="step-title">Return Pending</h4>
+                            </div>
+                            <div th:if="${order.orderStatus == 'Return Pending' || order.orderStatus == 'Return Accept'}" th:class="${order.orderStatus == 'Return Accept'} ? 'step completed' : 'step'">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i class="material-icons md-undo"></i></div>
+                                </div>
+                                <h4 class="step-title">Product Returned</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--                    <div class="order-tracking mb-100">-->
+<!--                        <div  class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between">-->
+<!--                            <div th:class="${orders.orderStatus == 'Shipped' || orders.orderStatus == 'Delivered' || orders.orderStatus == 'Pending'} ? 'step completed' : 'step'">-->
+<!--                                <div class="step-icon-wrap">-->
+<!--                                    <div class="step-icon"><i class="material-icons md-shopping_cart"></i></div>-->
+<!--                                </div>-->
+<!--                                <h4 class="step-title">Confirmed Order</h4>-->
+<!--&lt;!&ndash;                                <small class="text-muted text-sm" th:text="${orders.orderDate}"></small>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                            <div th:class="${orders.orderStatus == 'Shipped' || orders.orderStatus == 'Delivered' || orders.orderStatus == 'Pending'} ? 'step completed' : 'step'">-->
+<!--                                <div class="step-icon-wrap">-->
+<!--                                    <div class="step-icon"><i class="material-icons md-settings"></i></div>-->
+<!--                                </div>-->
+<!--                                <h4 class="step-title">Processing Order</h4>-->
+<!--&lt;!&ndash;                                <small class="text-muted text-sm" >16 March 2022</small>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                            <div th:class="${orders.orderStatus == 'Shipped' || orders.orderStatus == 'Delivered' || orders.orderStatus == 'Pending'} ? 'step completed' : 'step'">-->
+<!--                                <div class="step-icon-wrap">-->
+<!--                                    <div class="step-icon"><i class="material-icons md-shopping_bag"></i></div>-->
+<!--                                </div>-->
+<!--                                <h4 class="step-title">Quality Check</h4>-->
+<!--&lt;!&ndash;                                <small class="text-muted text-sm">17 March 2022</small>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                            <div th:class="${orders.orderStatus == 'Shipped' || orders.orderStatus == 'Delivered'} ? 'step completed' : 'step'">-->
+<!--                                <div class="step-icon-wrap">-->
+<!--                                    <div class="step-icon"><i class="material-icons md-local_shipping"></i></div>-->
+<!--                                </div>-->
+<!--                                <h4 class="step-title">Product Dispatched</h4>-->
+<!--&lt;!&ndash;                                <small class="text-muted text-sm">18 March 2022</small>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                            <div th:class="${orders.orderStatus == 'Delivered'} ? 'step completed' : 'step'">-->
+<!--                                <div class="step-icon-wrap">-->
+<!--                                    <div class="step-icon"><i class="material-icons md-check_circle"></i></div>-->
+<!--                                </div>-->
+<!--                                <h4 class="step-title">Product Delivered</h4>-->
+<!--&lt;!&ndash;                                <small class="text-muted text-sm">20 March 2022</small>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+            </div> <!-- card end// -->
+            </div>
+        </section> <!-- content-main end// -->
+        <footer th:replace="~{fragments :: footer}"></footer>
+    </main>
+    <script src="/shop/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/shop/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/shop/js/vendors/select2.min.js"></script>
+    <script src="/shop/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/shop/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/shop/js/main.js" type="text/javascript"></script>
+    <div th:replace="~{fragments::scripts}"></div>
+</body>
+
+</html>

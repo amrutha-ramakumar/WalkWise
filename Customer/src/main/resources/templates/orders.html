@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head_sec}">
+
+</head>
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::side-header}"></div>
+
+</div>
+
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/home}" rel="nofollow">Home</a>
+                <span></span> Pages
+                <span></span> Order
+            </div>
+        </div>
+    </div>
+    <section class="pt-80 pb-100">
+        <div class="container">
+            <div class="row">
+
+                <div class="card">
+                    <div class="card-header">
+                        <a  th:href="@{/order?pageNo=0}"> Back</a>
+                        <h5 class="mb-0">Your Orders</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+<!--                            <table class="table">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th>Order</th>-->
+<!--                                    <th>Product</th>-->
+<!--                                    <th>Product Description</th>-->
+<!--                                    <th>Unit Pize</th>-->
+<!--                                    <th>Quantity</th>-->
+<!--                                    <th>Totel Prize</th>-->
+<!--                                    <th>Action</th>-->
+
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                <tr th:each="orderDetail:${orderDetails}">-->
+<!--                                    <td th:text="${orderDetail.order.id}">#</td>-->
+
+<!--                                    <td >-->
+<!--                                        <img th:src="@{|/imgs/images/${orderDetail.product.image[0].getName()}|}" width="40" height="40" class="img-xs" alt="Item"> <br>-->
+<!--                                        <span th:text="${orderDetail.product.name}"></span>-->
+<!--                                    </td>-->
+<!--                                    <td th:text="${orderDetail.product.shortDescription}"></td>-->
+<!--                                    <td th:text="${orderDetail.unitPrice}"></td>-->
+<!--                                    <td th:text="${orderDetail.quantity}">$</td>-->
+<!--                                    <td th:text="${orderDetail.totalPrice}">$</td>-->
+<!--                                    <td >-->
+<!--                                        <a th:href="@{/orderDetails(orderId=${orderDetail.order.id})}" class="btn-small d-block">View</a></td>-->
+<!--                                    &lt;!&ndash;                                        <a class="btn btn-primary" th:href="@{/showReviewPage(productId=${orderDetail.product.id})}">Add Reviw</a>&ndash;&gt;-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+                            <table class="table" id="orderTable">
+                                <thead>
+                                <tr>
+
+                                    <th>OrderId</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total
+                                    <th>Payment Method</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order:${orders}">
+                                    <td th:text="${order.idOrders}">#</td>
+
+                                    <td th:text="${order.orderDate}"></td>
+                                    <td th:text="${order.orderStatus}"></td>
+                                    <td th:text="${order.grandTotalPrize}">$</td>
+                                    <td th:text="${order.paymentMethod}"></td>
+                                    <td>
+                                        <a th:href="@{/ordersDetails(orderId=${order.id})}" class="btn-small d-block">View</a>
+                                        <a th:href="@{/downloadInvoice(orderId=${order.id})}" class="btn-small d-block">invoice</a>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>                        </div>
+                    </div>
+                </div>
+                <div class="pagination-area mt-30 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <li class="page-item " th:if="${currentPage!=0}"><a class="page-link"  th:href="@{'/order?pageNo='+ ${currentPage-1}}"><<</a></li>
+                            <li class="page-item" th:classappend="${currentPage == i-1 ?'active':''}" th:each="i:${#numbers.sequence(1,totalPage)}">
+                                <a class="page-link" th:href="@{'/order?pageNo='+${i-1}}"> <span th:text="${i}"></span></a></li>
+                            <li class="page-item" th:if="${currentPage+1 !=totalPage}"><a class="page-link" th:href="@{'/order?pageNo='+ ${currentPage+1}}">>> </a></li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<div th:replace="~{fragments::scripts}"></div>
+
+</div>
+</body>
+</html>

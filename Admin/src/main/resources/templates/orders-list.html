@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments::head}">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/imgs/theme/}">
+    <!-- Template CSS -->
+</head>
+<body>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" th:href="@{/orderDetails/0} "> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+<main class="main-wrap">
+
+    <header th:replace="~{fragments :: header}"></header>
+
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Order List </h2>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div>
+                    <div class="row end">
+                        <form th:action="@{/pdfReport}" th:object="${report}" method="get">
+                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" id="pdfReportSelect" th:field="*{pdfReport}">
+                                <option selected th:value="null">Select Report</option>
+                                <option th:value="daily">DailyReport</option>
+                                <option th:value="weekly">Weekly Report</option>
+                                <option th:value="yearly">Yearly report</option>
+                                <option th:value="custom">Custom Date Range</option>
+                            </select>
+                            <input type="submit" value="Report PDF" class="btn btn-primary">
+                            <input class="border-radius-5 border-white bg-white" type="text" id="startDate" name="startDate" placeholder="Start Date" style="display: none;">
+                            <input class="border-radius-5 border-white bg-white" type="text" id="endDate" name="endDate" placeholder="End Date" style="display: none;">
+                        </form>
+                        <form th:action="@{/csvReport}" th:object="${report}" method="get">
+                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" id="csvReportSelect" th:field="*{csvReport}">
+                                <option selected th:value="null">Select Report</option>
+                                <option th:value="daily">DailyReport</option>
+                                <option th:value="weekly">Weekly Report</option>
+                                <option th:value="yearly">Yearly report</option>
+                                <option th:value="customDate">Custom Date Range</option>
+                            </select>
+                            <input type="submit" value="Report CSV" class="btn btn-primary">
+                            <input class="border-radius-5 border-white bg-white" type="text" id="csvStartDate" name="csvStartDate" placeholder="Start Date" style="display: none;">
+                            <input class="border-radius-5 border-white bg-white" type="text" id="csvEndDate" name="csvEndDate" placeholder="End Date" style="display: none;">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-md-4 me-auto">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 me-auto">
+
+
+                                <form th:action="@{/orderStatus/0}" th:object="${report}">
+                                    <span><a th:href="@{/orderDetails/0}"><i class="icon material-icons md-arrow_back"></i></a></span>
+                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200" th:field="*{orderStatus}">
+                                <option th:value="null">Status</option>
+                                <option th:value="Cancel">Cancel</option>
+                                <option th:value="Pending">Pending</option>
+                                <option th:value="Shipped">Shipped</option>
+                                <option th:value="Delivered">Delivered</option>
+                                <option value="Return Pending">Return Pending</option>
+                                <option value="Return Accept">Return Accept</option>
+                            </select>
+                            <input  type="submit" value="GET">
+
+                        </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#ID</th>
+                                <th scope="col">Name</th>
+
+
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Payment Method</th>
+                                <th scope="col" class="text-end"> Action </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="orderDetails: ${orders}">
+                                <td th:text="${orderDetails.id}"></td>
+                                <td th:text="${orderDetails.customer.name}"><b></b></td>
+
+
+                                <td th:text="${orderDetails.grandTotalPrize}">$</td>
+                                <td>
+                                <p th:if="${orderDetails.orderStatus}==Pending"><span th:text="${orderDetails.orderStatus}" class="btn btn-warning"></span></p>
+                                <p th:if="${orderDetails.orderStatus}==Cancel"><span th:text="${orderDetails.orderStatus}" class="btn btn-danger"></span></p>
+                                <p th:if="${orderDetails.orderStatus=='Return Accept'}"><span th:text="${orderDetails.orderStatus}" class="btn btn-success"></span></p>
+                                <p th:if="${orderDetails.orderStatus}==Delivered"><span th:text="${orderDetails.orderStatus}" class="btn btn-info"></span></p>
+                                    <p th:if="${orderDetails.orderStatus=='Return Pending'}"><span th:text="${orderDetails.orderStatus}" class="btn btn-warning"></span></p>
+                                    <p th:if="${orderDetails.orderStatus}==Shipped"><span th:text="${orderDetails.orderStatus}" class="btn btn-primary"></span></p>
+
+                                </td>
+
+                                <td th:text="${orderDetails.orderDate}"></td>
+                                <td th:text="${orderDetails.paymentMethod}"></td>
+
+                                <td class="text-end">
+                                    <a th:href="@{/orderDetailsInfo(orderId=${orderDetails.id})}" class="btn btn-md rounded font-sm">Detail</a>
+
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li th:if="${currentPage!=0}" class="page-item"><a th:href="@{'/orderDetails/'+ ${currentPage-1}}" class="page-link" href="#">Previous</a></li>
+
+                                <li th:classappend="${currentPage == i-1 ?'active':''}" th:each="i:${#numbers.sequence(1,totalPage)}" class="page-item">
+                                    <a class="page-link" href="#" th:href="@{'/orderDetails/'+${i-1}}">
+                                    <span th:text="${i}"></span>
+                                </a></li>
+
+                                <li th:if="${currentPage+1 !=totalPage}" class="page-item"><a th:href="@{'/orderDetails/'+ ${currentPage+1}}" class="page-link" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                </section>
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+</main>
+<div th:replace="~{fragments::scripts}"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script>
+    $(document).ready(function() {
+        $("#pdfReportSelect").change(function() {
+            var selectedOption = $(this).val();
+            if (selectedOption === "custom") {
+                $("#startDate, #endDate").datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    onSelect: function(dateText) {
+                        if ($(this).attr("id") === "startDate") {
+                            $("#endDate").datepicker("option", "minDate", dateText);
+                        }
+                    }
+                }).show();
+            } else {
+                $("#startDate, #endDate").hide();
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $("#csvReportSelect").change(function() {
+            var selectedOption = $(this).val();
+            if (selectedOption === "customDate") {
+                $("#csvStartDate, #csvEndDate").datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    onSelect: function(dateText) {
+                        if ($(this).attr("id") === "csvStartDate") {
+                            $("#csvEndDate").datepicker("option", "minDate", dateText);
+                        }
+                    }
+                }).show();
+            } else {
+                $("#csvStartDate, #csvEndDate").hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}"></head>
+
+<body>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <!--            <a href="index.html" class="brand-wrap">-->
+        <!--                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
+        <!--            </a>-->
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/index}"> <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" th:href="@{/customers}"> <i class="icon material-icons md-person"></i>
+                    <span class="text">Customers</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/categories}"> <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Categories</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/products/0}"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text" >Orders</span>
+                </a>
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" th:href="@{/Coupon}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Coupons</span>
+                </a>
+            </li>
+            <li class="menu-item active">
+                <a class="menu-link" th:href="@{/offer/0}"> <i class="icon material-icons md-card_giftcard"></i>
+                    <span class="text">Offers</span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+    </nav>
+</aside>
+<main class="main-wrap">
+    <header th:replace="~{fragments :: header}"></header>
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Products</h2>
+            </div>
+
+
+        </div>
+        <div class="container">
+
+            <p th:if="${size == 0} ">No Offer</p>
+
+            <div class="card mb-5">
+                <header class="card-header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <a th:href="@{/productOffer}" class = "btn btn-primary">Add Product Offer</a>
+                            <a th:href="@{/categoryOffer}" class = "btn btn-primary">Add Category Offer</a>
+                        </div>
+<!--                        <div class="col-md-4">-->
+<!--                            &lt;!&ndash;  category search           &ndash;&gt;-->
+<!--                            <form th:action = "@{/search-products/0}" method = "get">-->
+<!--                                <div class="input-group">-->
+<!--                                    <input  type="text" class="form-control " id="search" name = "keyword" placeholder="Search product" aria-label="Search"  />-->
+<!--                                    <button type="submit" style="background-color: #088178; color: #FFFFFF" class="btn " >search</button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </div>-->
+                    </div>
+                </header>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0" th:if = "${size > 0}">
+                                <thead class="table-light">
+                                <tr>
+
+                                    <th>Status</th>
+                                    <th>Product Name</th>
+                                    <th>Offer</th>
+                                    <th>Description</th>
+                                    <th>type</th>
+                                    <th>Offer Percentage</th>
+                                    <th>Update</th>
+                                    <th>Action</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each = "offer : ${offers}">
+
+                                    <td>
+                                        <span class="badge badge-pill badge-soft-success" th:if="${offer.active==true}">Active</span>
+                                        <span class="badge badge-pill badge-soft-danger" th:if="${offer.active==false}">Blocked</span>
+
+                                    </td>
+
+                                    <td>
+                                        <span th:text="${offer.product?.name}"></span>
+                                        <span th:text="${offer.category?.name}"></span>
+
+                                    </td>
+                                    <td th:text = "${offer.offerName}"></td>
+                                    <td th:text = "${offer.description}"></td>
+                                    <td th:text = "${offer.offerType}"></td>
+                                    <td th:text = "${offer.offerPercentage}"></td>
+
+                                    <td><a th:href="@{/updateOffer(offerId= ${offer.id})}" class="btn btn-primary">Update</a></td>
+
+                                    <td>
+                                        <a th:if="${offer.active} == true" th:href="@{/disable-offer(offerId = ${offer.id})}"
+                                           class="btn btn-danger" onclick="if (!(confirm('Are you sure you want to Disable this offer?'))) return false">Remove offer</a>
+                                        <a th:if="${offer.active} == false" th:href="@{/enable-offer(offerId = ${offer.id})}"
+                                           class=" btn btn-primary" onclick="if (!(confirm('Are you sure you want to Enable this offer?'))) return false" >Apply offer</a>
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> <!-- table-responsive end// -->
+                </div>
+            </div>
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li th:if = "${currentPage != 0}" class="page-item">
+                            <a th:href="@{'/products/' + ${currentPage - 1}}" class="page-link" href="#"><i class="material-icons md-chevron_left"></i></a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(1,totalPages)}" th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">
+                            <a th:href="@{'/products/' + ${i - 1}}" class="page-link" href="#"><span th:text=" ${i}"></span></a>
+                        </li>
+                        <li th:if = "${currentPage +1 != totalPages}" class="page-item">
+                            <a th:href=" @{'/products/' +${currentPage + 1}}" class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- content-main end// -->
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+</main>
+<div th:replace="~{fragments::scripts}"></div>
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+</body>
+
+</html>
