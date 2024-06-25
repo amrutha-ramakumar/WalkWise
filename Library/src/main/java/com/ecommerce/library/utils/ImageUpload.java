@@ -16,9 +16,9 @@ public class ImageUpload {
 
     String rootPath = System.getProperty("user.home");
 
-    String UPLOAD_FOLDER = "C:\\Users\\Amrutha\\Desktop\\Walkwise\\Admin\\src\\main\\resources\\static\\imgs\\images";
+    String UPLOAD_FOLDER = "/home/ubuntu/Walkwise/Admin/src/main/resources/static/imgs/images";
 
-    String UPLOAD_FOLDER_CUSTOMER ="C:\\Users\\Amrutha\\Desktop\\Walkwise\\Customer\\src\\main\\resources\\static\\imgs\\images";
+    String UPLOAD_FOLDER_CUSTOMER ="/home/ubuntu/Walkwise/Customer/src/main/resources/static/imgs/images";
 
 
     public String storeFile(MultipartFile file) throws IOException {

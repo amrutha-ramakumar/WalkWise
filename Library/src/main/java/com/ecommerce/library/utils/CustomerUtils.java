@@ -15,8 +15,20 @@ public class CustomerUtils {
     }
 
     public boolean isUserBlocked(Principal principal, HttpSession session) {
+
         if (principal != null) {
             Customer customer = customerService.findByEmail(principal.getName());
+            if (customer.isBlocked()) {
+                session.removeAttribute("username");
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isUserBlock(String username, HttpSession session) {
+
+        if (username != null) {
+            Customer customer = customerService.findByEmail(username);
             if (customer.isBlocked()) {
                 session.removeAttribute("username");
                 return true;

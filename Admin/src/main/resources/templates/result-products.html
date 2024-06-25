@@ -79,8 +79,18 @@
             <div class="card mb-5">
                 <header class="card-header">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <a th:href="@{/add-product}" class = "btn btn-primary">Add Product</a>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" onchange="location=this.value">
+                                <option>Filter</option>
+                                <option value="https://amrutharamakumar.online/admin/filterLatest/0">Latest </option>
+                                <option value="https://amrutharamakumar.online/filterLowToHigh/0" >Price: Low to High</option>
+                                <option value="https://amrutharamakumar.online/admin/filterHighToLow/0">Price: High to Low</option>
+                                <option value="https://amrutharamakumar.online/admin/filterAToZ/0">aA-zZ</option>
+                                <option value="https://amrutharamakumar.online/admin/filterZToA/0">zZ-aA</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <!--  category search           -->

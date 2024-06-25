@@ -11,6 +11,8 @@ import com.ecommerce.library.utils.CustomerUtils;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,6 +102,52 @@ public class HomeController {
         }
         return "login";
     }
+    //@GetMapping("/home")
+    //public String showhome(Model model, Principal principal, @AuthenticationPrincipal OidcUser oidcUser, HttpSession session) {
+    //    try {
+    //        if (principal != null) {
+    //            String username = principal.getName();
+    //            Customer customer = customerService.findByEmail(username);
+    //            if (customer != null && customer.isBlocked()) {
+    //                session.removeAttribute("username");
+    //                return "redirect:/logout"; // Redirect to logout endpoint
+    //            }
+    //
+    //            session.setAttribute("username", username);
+    //            model.addAttribute("tittle", "shop");
+    //            List<Category> categories = categoryService.findAll();
+    //            List<Product> productDtos = productService.findAll();
+    //            model.addAttribute("categories", categories);
+    //            model.addAttribute("products", productDtos);
+    //            return "home";
+    //        } else if (oidcUser != null) {
+    //            String email = oidcUser.getEmail();
+    //            Customer customer = customerService.findByEmail(email);
+    //            if (customer != null && customer.isBlocked()) {
+    //                session.removeAttribute("username");
+    //                return "redirect:/logout"; // Redirect to logout endpoint
+    //            }
+    //
+    //            session.setAttribute("username", email);
+    //            model.addAttribute("tittle", "shop");
+    //            model.addAttribute("name", oidcUser.getFullName());
+    //            model.addAttribute("email", oidcUser.getEmail());
+    //            model.addAttribute("picture", oidcUser.getPicture());
+    //            List<Category> categories = categoryService.findAll();
+    //            List<Product> productDtos = productService.findAll();
+    //            model.addAttribute("categories", categories);
+    //            model.addAttribute("products", productDtos);
+    //            return "home";
+    //        } else {
+    //            session.removeAttribute("username");
+    //            return "redirect:/login"; // Redirect to login page
+    //        }
+    //    } catch (Exception e) {
+    //        e.printStackTrace();
+    //    }
+    //    return "redirect:/login"; // Redirect to login page on error
+    //}
+
     @GetMapping("/shops/{pageNo}")
     public String showshop(@PathVariable("pageNo") int pageNo, Model model,Principal principal,HttpSession session){
         model.addAttribute("tittle","shop");
