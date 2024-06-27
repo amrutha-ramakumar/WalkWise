@@ -11,7 +11,8 @@
         <!--                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
         <!--            </a>-->
         <div>
-            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i>
+            </button>
         </div>
     </div>
     <nav>
@@ -37,8 +38,9 @@
                 </a>
             </li>
             <li class="menu-item ">
-                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
-                    <span class="text" >Orders</span>
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i
+                        class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">Orders</span>
                 </a>
             </li>
             <li class="menu-item ">
@@ -78,10 +80,10 @@
                         <h4>Offer Details</h4>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/saveOffer}" th:object="${offerDto}"   method="POST">
+                        <form th:action="@{/saveOffer}" th:object="${offerDto}" method="POST">
 
                             <div class="mb-4">
-                                <label  class="form-label">Choose Product</label>
+                                <label class="form-label">Choose Product</label>
                                 <select th:field="*{product}" name="product" class="form-select">
                                     <option th:value="null"> select</option>
                                     <option th:each="productt :${products}"
@@ -90,24 +92,30 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label  class="form-label">Offer Name</label>
-                                <input type="text" th:field="*{offerName}"  name="offerName"   class="form-control"    />
-                                <p style="color: red" th:if="${#fields.hasErrors('offerName')}" th:errors="*{offerName}"></p>
+                                <label class="form-label">Offer Name</label>
+                                <input type="text" th:field="*{offerName}" name="offerName" class="form-control"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('offerName')}"
+                                   th:errors="*{offerName}"></p>
                             </div>
                             <div class="mb-4">
-                                <label  class="form-label">Offer Description</label>
-                                <input type="text" th:field="*{description}"  name="desciption"   class="form-control"    />
-                                <p style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                                <label class="form-label">Offer Description</label>
+                                <input type="text" th:field="*{description}" name="desciption" class="form-control"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('description')}"
+                                   th:errors="*{description}"></p>
                             </div>
                             <div class="mb-4">
-                                <label  class="form-label">Offer Percentage</label>
-                                <input type="text" th:field="*{offerPercentage}"  name="offerPercentage"   class="form-control"    />
-                                <p style="color: red" th:if="${#fields.hasErrors('offerPercentage')}" th:errors="*{offerPercentage}"></p>
+                                <label class="form-label">Offer Percentage</label>
+                                <input type="text" th:field="*{offerPercentage}" name="offerPercentage"
+                                       class="form-control"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('offerPercentage')}"
+                                   th:errors="*{offerPercentage}"></p>
                             </div>
                             <div class="mb-4">
-                                <label  class="form-label">Offer Type</label>
-                                <input type="texr" th:field="*{offerType}" value="Product Offer" name="offerType"   class="form-control"  readonly  />
-                                <p style="color: red" th:if="${#fields.hasErrors('offerType')}" th:errors="*{offerType}"></p>
+                                <label class="form-label">Offer Type</label>
+                                <input type="texr" th:field="*{offerType}" value="Product Offer" name="offerType"
+                                       class="form-control" readonly/>
+                                <p style="color: red" th:if="${#fields.hasErrors('offerType')}"
+                                   th:errors="*{offerType}"></p>
                             </div>
                             <button class="btn btn-primary" type="submit">Save</button>
                         </form>

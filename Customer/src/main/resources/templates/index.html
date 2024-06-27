@@ -4,138 +4,6 @@
 <head th:replace="~{fragments::head_sec}"></head>
 
 <body>
-    <!-- Quick view -->
-<!--    <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">-->
-<!--        <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                <div class="modal-body">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-md-6 col-sm-12 col-xs-12">-->
-<!--                            <div class="detail-gallery">-->
-<!--                                <span class="zoom-icon"><i class="fi-rs-search"></i></span>-->
-<!--                                &lt;!&ndash; MAIN SLIDES &ndash;&gt;-->
-<!--                                <div class="product-image-slider">-->
-<!--                                    <figure class="border-radius-10">-->
-<!--                                        <img src="/shop/imgs/shop/product-16-2.jpg" alt="product image">-->
-<!--                                    </figure>-->
-<!--                                    <figure class="border-radius-10">-->
-<!--                                        <img src="/shop/imgs/shop/product-16-1.jpg" alt="product image">-->
-<!--                                    </figure>-->
-<!--                                    <figure class="border-radius-10">-->
-<!--                                        <img src="/shop/imgs/shop/product-16-3.jpg" alt="product image">-->
-<!--                                    </figure>-->
-<!--                                    <figure class="border-radius-10">-->
-<!--                                        <img src="/shop/imgs/shop/product-16-4.jpg" alt="product image">-->
-<!--                                    </figure>-->
-<!--                                    <figure class="border-radius-10">-->
-<!--                                        <img src="/shop/imgs/shop/product-16-5.jpg" alt="product image">-->
-<!--                                    </figure>-->
-<!--                                    <figure class="border-radius-10">-->
-<!--                                        <img src="/shop/imgs/shop/product-16-6.jpg" alt="product image">-->
-<!--                                    </figure>-->
-<!--                                    <figure class="border-radius-10">-->
-<!--                                        <img src="/shop/imgs/shop/product-16-7.jpg" alt="product image">-->
-<!--                                    </figure>-->
-<!--                                </div>-->
-<!--                                &lt;!&ndash; THUMBNAILS &ndash;&gt;-->
-<!--                                <div class="slider-nav-thumbnails pl-15 pr-15">-->
-<!--                                    <div><img src="/shop/imgs/shop/thumbnail-3.jpg" alt="product image"></div>-->
-<!--                                    <div><img src="/shop/imgs/shop/thumbnail-4.jpg" alt="product image"></div>-->
-<!--                                    <div><img src="/shop/imgs/shop/thumbnail-5.jpg" alt="product image"></div>-->
-<!--                                    <div><img src="/shop/imgs/shop/thumbnail-6.jpg" alt="product image"></div>-->
-<!--                                    <div><img src="/shop/imgs/shop/thumbnail-7.jpg" alt="product image"></div>-->
-<!--                                    <div><img src="/shop/imgs/shop/thumbnail-8.jpg" alt="product image"></div>-->
-<!--                                    <div><img src="/shop/imgs/shop/thumbnail-9.jpg" alt="product image"></div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            &lt;!&ndash; End Gallery &ndash;&gt;-->
-<!--                            <div class="social-icons single-share">-->
-<!--                                <ul class="text-grey-5 d-inline-block">-->
-<!--                                    <li><strong class="mr-10">Share this:</strong></li>-->
-<!--                                    <li class="social-facebook"><a href="#"><img src="/shop/imgs/theme/icons/icon-facebook.svg" alt=""></a></li>-->
-<!--                                    <li class="social-twitter"> <a href="#"><img src="/shop/imgs/theme/icons/icon-twitter.svg" alt=""></a></li>-->
-<!--                                    <li class="social-instagram"><a href="#"><img src="/shop/imgs/theme/icons/icon-instagram.svg" alt=""></a></li>-->
-<!--                                    <li class="social-linkedin"><a href="#"><img src="/shop/imgs/theme/icons/icon-pinterest.svg" alt=""></a></li>-->
-<!--                                </ul>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-md-6 col-sm-12 col-xs-12">-->
-<!--                            <div class="detail-info">-->
-<!--                                <h3 class="title-detail mt-30">Colorful Pattern Shirts HD450</h3>-->
-<!--                                <div class="product-detail-rating">-->
-<!--                                    <div class="pro-details-brand">-->
-<!--                                        <span> Brands: <a href="shop-grid-right.html">Bootstrap</a></span>-->
-<!--                                    </div>-->
-<!--                                    <div class="product-rate-cover text-end">-->
-<!--                                        <div class="product-rate d-inline-block">-->
-<!--                                            <div class="product-rating" style="width:90%">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <span class="font-small ml-5 text-muted"> (25 reviews)</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="clearfix product-price-cover">-->
-<!--                                    <div class="product-price primary-color float-left">-->
-<!--                                        <ins><span class="text-brand">$120.00</span></ins>-->
-<!--                                        <ins><span class="old-price font-md ml-15">$200.00</span></ins>-->
-<!--                                        <span class="save-price  font-md color3 ml-15">25% Off</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="bt-1 border-color-1 mt-15 mb-15"></div>-->
-<!--                                <div class="short-desc mb-30">-->
-<!--                                    <p class="font-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam rem officia, corrupti reiciendis minima nisi modi,!</p>-->
-<!--                                </div>-->
-
-<!--                                <div class="attr-detail attr-color mb-15">-->
-<!--                                    <strong class="mr-10">Color</strong>-->
-<!--                                    <ul class="list-filter color-filter">-->
-<!--                                        <li><a href="#" data-color="Red"><span class="product-color-red"></span></a></li>-->
-<!--                                        <li><a href="#" data-color="Yellow"><span class="product-color-yellow"></span></a></li>-->
-<!--                                        <li class="active"><a href="#" data-color="White"><span class="product-color-white"></span></a></li>-->
-<!--                                        <li><a href="#" data-color="Orange"><span class="product-color-orange"></span></a></li>-->
-<!--                                        <li><a href="#" data-color="Cyan"><span class="product-color-cyan"></span></a></li>-->
-<!--                                        <li><a href="#" data-color="Green"><span class="product-color-green"></span></a></li>-->
-<!--                                        <li><a href="#" data-color="Purple"><span class="product-color-purple"></span></a></li>-->
-<!--                                    </ul>-->
-<!--                                </div>-->
-<!--                                <div class="attr-detail attr-size">-->
-<!--                                    <strong class="mr-10">Size</strong>-->
-<!--                                    <ul class="list-filter size-filter font-small">-->
-<!--                                        <li><a href="#">S</a></li>-->
-<!--                                        <li class="active"><a href="#">M</a></li>-->
-<!--                                        <li><a href="#">L</a></li>-->
-<!--                                        <li><a href="#">XL</a></li>-->
-<!--                                        <li><a href="#">XXL</a></li>-->
-<!--                                    </ul>-->
-<!--                                </div>-->
-<!--                                <div class="bt-1 border-color-1 mt-30 mb-30"></div>-->
-<!--                                <div class="detail-extralink">-->
-<!--                                    <div class="detail-qty border radius">-->
-<!--                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>-->
-<!--                                        <span class="qty-val">1</span>-->
-<!--                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>-->
-<!--                                    </div>-->
-<!--                                    <div class="product-extra-link2">-->
-<!--                                        <button type="submit" class="button button-add-to-cart">Add to cart</button>-->
-<!--                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>-->
-<!--                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <ul class="product-meta font-xs color-grey mt-50">-->
-<!--                                    <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>-->
-<!--                                    <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>-->
-<!--                                    <li>Availability:<span class="in-stock text-success ml-5">8 Items In Stock</span></li>-->
-<!--                                </ul>-->
-<!--                            </div>-->
-<!--                            &lt;!&ndash; Detail Info &ndash;&gt;-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--        </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
     <header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
     </header>
     <div th:replace="~{fragments::signin-side-header}"></div>
@@ -250,21 +118,7 @@
         <section class="product-tabs section-padding position-relative wow fadeIn animated">
             <div class="bg-square"></div>
             <div class="container">
-                <div class="tab-header">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab" data-bs-target="#tab-one" type="button" role="tab" aria-controls="tab-one" aria-selected="true">Featured</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#tab-two" type="button" role="tab" aria-controls="tab-two" aria-selected="false">Popular</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="nav-tab-three" data-bs-toggle="tab" data-bs-target="#tab-three" type="button" role="tab" aria-controls="tab-three" aria-selected="false">New added</button>
-                        </li>
-                    </ul>
-                    <a href="#" class="view-more d-none d-md-flex">View More<i class="fi-rs-angle-double-small-right"></i></a>
-                </div>
-                <!--End nav-tabs-->
+
 
                 <!--End tab-content-->
             </div>
@@ -402,24 +256,23 @@
                 <div class="banner-img banner-big wow fadeIn animated f-none">
                     <img src="/shop/imgs/banner/banner-4.png" alt="">
                     <div class="banner-text d-md-block d-none">
-                        <h4 class="mb-15 mt-40 text-brand">Repair Services</h4>
-                        <h1 class="fw-600 mb-20">We're an Apple <br>Authorised Service Provider</h1>
-                        <a href="shop-grid-right.html" class="btn">Learn More <i class="fi-rs-arrow-right"></i></a>
+                        <h4 class="mb-15 mt-40 text-brand">Exclusive Collection</h4>
+                        <h1 class="fw-600 mb-20">Step Up Your Style <br>with Our Premium Footwear</h1>
                     </div>
                 </div>
             </div>
         </section>
         <section class="popular-categories section-padding mt-15 mb-25">
             <div class="container wow fadeIn animated">
-                <h3 class="section-title mb-20"><span>Popular</span> Brands</h3>
+                <h3 class="section-title mb-20"><span>Popular</span> Categories</h3>
                 <div class="carausel-6-columns-cover position-relative">
                     <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows"></div>
                     <div class="carausel-6-columns" id="carausel-6-columns">
-                        <div class="card-1" th:each="brand:${brands}">
+                        <div class="card-1" th:each="category:${categories}">
                             <figure class=" img-hover-scale overflow-hidden">
-                                <a href="shop-grid-right.html"> <img th:src="'/shop/imgs/brands/' + ${brand} + '.png'" alt="Image of [[${brand}]]"/></a>
+                                <a  href="#"><img src="/shop/imgs/shop/category-thumb-1.jpg" alt=""></a>
                             </figure>
-                            <h5><a th:text="${brand}" href="shop-grid-right.html"></a></h5>
+                            <h5><a th:text="${category.name}" href="#"  ></a></h5>
                         </div>
                     </div>
                 </div>
@@ -428,73 +281,18 @@
         <section class="banners mb-15">
             <div class="container">
                 <div class="row">
-<!--                    <div class="col-lg-4 col-md-6">-->
-<!--                        <div class="banner-img wow fadeIn animated">-->
-<!--                            <img src="/shop/imgs/banner/banner-1.png" alt="">-->
-<!--                            <div class="banner-text">-->
-<!--                                <span>Smart Offer</span>-->
-<!--                                <h4>Save 20% on <br>Shoes</h4>-->
-<!--                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-4 col-md-6">-->
-<!--                        <div class="banner-img wow fadeIn animated">-->
-<!--                            <img src="/shop/imgs/banner/banner-2.png" alt="">-->
-<!--                            <div class="banner-text">-->
-<!--                                <span>Sale off</span>-->
-<!--                                <h4>Great Summer <br>Collection</h4>-->
-<!--                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-4 d-md-none d-lg-flex">-->
-<!--                        <div class="banner-img wow fadeIn animated  mb-sm-0">-->
-<!--                            <img src="/shop/imgs/banner/banner-3.png" alt="">-->
-<!--                            <div class="banner-text">-->
-<!--                                <span>New Arrivals</span>-->
-<!--                                <h4>Shop Today’s <br>Deals & Offers</h4>-->
-<!--                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+
                 </div>
             </div>
         </section>
         <section class="section-padding">
             <div class="container wow fadeIn animated">
 <!--                <h3 class="section-title mb-20"><span>New</span> Arrivals</h3>-->
-                <div class="carausel-6-columns-cover position-relative">
-                    <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-2-arrows"></div>
-                    <div class="carausel-6-columns carausel-arrow-center" id="carausel-6-columns-2">
+                <div>
+                    <div ></div>
+                    <div class=>
                         <div class="product-cart-wrap small hover-up" th:each="product:${products}">
-<!--                            <div class="product-img-action-wrap">-->
-<!--                                <div class="product-img product-img-zoom">-->
-<!--                                    <a href="shop-product-right.html">-->
-<!--                                        <img class="default-img" th:src="@{|/imgs/images/${product.image[0].getName()}|}" alt="images">-->
-<!--                                        <img class="hover-img" th:src="@{|/imgs/images/${product.image[0].getName()}|}" alt="">-->
-<!--                                    </a>-->
-<!--                                </div>-->
-<!--                                <div class="product-action-1">-->
-<!--                                    <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">-->
-<!--<i class="fi-rs-eye"></i></a>-->
-<!--                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up" th:href="@{/login}" href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>-->
-<!--                                    <a aria-label="Compare" class="action-btn small hover-up" th:href="@{/login}" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>-->
-<!--                                </div>-->
 
-<!--                            </div>-->
-<!--                            <div class="product-content-wrap">-->
-<!--                                <h2><a th:text = "${product.name}" ></a></h2>-->
-<!--                                <div class="rating-result" title="90%">-->
-<!--                                    <span>90%-->
-<!--                                    </span>-->
-<!--                                </div>-->
-<!--                                <div class="product-price">-->
-<!--                                    <span th:unless="${product.salePrice > 0}">₹[(${product.costPrice})]</span>-->
-<!--                                    <span th:if="${product.salePrice > 0}">₹[(${product.salePrice})]</span>-->
-<!--                                    <span th:if="${product.salePrice > 0}" class="old-price">₹[(${product.costPrice})]</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
                         </div>
                         <!--End product-cart-wrap-2-->
                     </div>
@@ -504,40 +302,7 @@
         <section class="deals section-padding">
             <div class="container">
                 <div class="row">
-<!--                    <div class="col-lg-6 deal-co">-->
-<!--                        <div class="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0" style="background-image: url('/shop/imgs/banner/menu-banner-7.jpg');">-->
-<!--                            <div class="deal-top">-->
-<!--                                <h2 class="text-brand">Deal of the Day</h2>-->
-<!--                                <h5>Limited quantities.</h5>-->
-<!--                            </div>-->
-<!--                            <div class="deal-content">-->
-<!--                                <h6 class="product-title"><a href="shop-product-right.html">Summer Collection New Morden Design</a></h6>-->
-<!--                                <div class="product-price"><span class="new-price">1000</span><span class="old-price">1500</span></div>-->
-<!--                            </div>-->
-<!--                            <div class="deal-bottom">-->
-<!--                                <p>Hurry Up! Offer End In:</p>-->
-<!--                                <div class="deals-countdown" data-countdown="2025/03/25 00:00:00"></div>-->
-<!--                                <a href="shop-grid-right.html" class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-6 deal-co">-->
-<!--                        <div class="deal wow fadeIn animated" >-->
-<!--                            <div class="deal-top">-->
-<!--                                <h2 class="text-brand">Men Sneakers</h2>-->
-<!--                                <h5>Get Fast</h5>-->
-<!--                            </div>-->
-<!--                            <div class="deal-content">-->
-<!--                                <h6 class="product-title"><a href="shop-product-right.html">Try something new on vacation</a></h6>-->
-<!--                                <div class="product-price"><span class="new-price">2500</span><span class="old-price">3999</span></div>-->
-<!--                            </div>-->
-<!--                            <div class="deal-bottom">-->
-<!--                                <p>Hurry Up! Offer End In:</p>-->
-<!--                                <div class="deals-countdown" data-countdown="2026/03/25 00:00:00"></div>-->
-<!--                                <a href="shop-grid-right.html" class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+
                 </div>
             </div>
         </section>

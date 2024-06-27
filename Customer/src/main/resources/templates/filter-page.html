@@ -155,7 +155,7 @@
                         <div class="totall-product"  style="margin-left: 950px;">
                             <div class="input-group" >
                                 <form  class="search-form" th:action="@{/filterSearch}" method="GET" id="filterForm" style="background-color: #f1f1f1; " >
-                                    <input type="text" name="key"  class="form-control " placeholder="Search categories" aria-label="Search"  />
+                                    <input type="text" name="key"  class="form-control " placeholder="Search product" aria-label="Search"  />
                                     <!--                                        <button type="button" style="background-color: #088178; color: #FFFFFF" class="btn " >search</button>-->
                                 </form>
                             </div>
@@ -252,110 +252,6 @@
         </div>
     </section>
 </main>
-<!--    <main class="main">-->
-<!--        <div class="page-header breadcrumb-wrap">-->
-<!--            <div class="container">-->
-<!--                <div class="breadcrumb">-->
-<!--                    <a th:href="@{/home}">Home</a>-->
-<!--                    <span></span> Shop-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <section class="mt-50 mb-50">-->
-<!--            <div class="container">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-lg-12">-->
-<!--                        <div class="shop-product-fillter">-->
-<!--                            <div class="totall-product"  style="margin-left: 950px;">-->
-<!--                                <div class="input-group" >-->
-<!--                                    <form  class="search-form" th:action="@{/search}" method="GET" id="filterForm" style="background-color: #f1f1f1; " >-->
-<!--                                        <input type="text" name="key"  class="form-control " placeholder="Search categories" aria-label="Search"  />-->
-<!--&lt;!&ndash;                                        <button type="button" style="background-color: #088178; color: #FFFFFF" class="btn " >search</button>&ndash;&gt;-->
-<!--                                    </form>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            <div class="sort-by-cover">-->
-<!--                                <select onchange="location=this.value" style="background-color: #f1f1f1; height: 45px; width: 150px">-->
-<!--                                    <option>Featured</option>-->
-<!--                                    <option value="http://localhost:8020/shop/shops/0">All</option>-->
-<!--                                    <option value="http://localhost:8020/shop/low-price-high/0">Price: Low to High</option>-->
-<!--                                    <option value="http://localhost:8020/shop/high-price-low/0">Price: High to Low</option>-->
-<!--                                    <option value="http://localhost:8020/shop/new-arrivals/0">Newest First</option>-->
-<!--                                    <option value="http://localhost:8020/shop/new-AtoZ/0">aA-zZ</option>-->
-<!--                                    <option value="http://localhost:8020/shop/new-ZtoA/0">zZ-aA</option>-->
-<!--                                    <option value="http://localhost:8020/shop/shops">Popularity </option>-->
-<!--                                    <option value="http://localhost:8020/shop">Average ratings </option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                        <div class="row product-grid-3">-->
-<!--                            <div class="col-lg-3 col-md-4" th:each="product:${products}" th:style="${product.currentQuantity == 0} ? 'opacity:0.5;' : ''"  >-->
-<!--                                <div class="product-cart-wrap mb-30">-->
-<!--                                    <div class="product-img-action-wrap">-->
-<!--                                        <div class="product-img product-img-zoom">-->
-<!--                                            <a th:href="@{/product-details/{id}(id = ${product.id})}">-->
-<!--                                                <img class="default-img" th:src="@{|/imgs/images/${product.image[0].getName()}|}" alt="ProductImage">-->
-<!--                                                <img class="hover-img" th:src="@{|/imgs/images/${product.image[0].getName()}|}" alt="ProductImage">-->
-<!--                                            </a>-->
-<!--                                        </div>-->
-<!--                                        <div class="product-action-1">-->
-<!--                                            <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">-->
-<!--                                            <i class="fi-rs-search"></i></a>-->
-<!--                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" th:href="@{/addToWishList(productId=${product.id},sizeId='1L')}"><i class="fi-rs-heart"></i></a>-->
-<!--                                            <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>-->
-<!--                                        </div>-->
-<!--                                        <div class="product-badges product-badges-position product-badges-mrg">-->
-
-<!--                                            <span class="new" th:if="${product.currentQuantity == 0}">Sold Out</span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="product-content-wrap">-->
-<!--                                        <div class="product-category">-->
-<!--                                            <a th:text = "${product.category.name}"></a>-->
-<!--                                        </div>-->
-<!--                                        <h2><a  th:text = "${product.name}"></a></h2>-->
-<!--                                        <div class="rating-result" title="90%">-->
-<!--                                            <span>-->
-<!--                                                <span>90%</span>-->
-<!--                                            </span>-->
-<!--                                        </div>-->
-<!--                                        <div class="product-price">-->
-<!--                                            <span th:unless="${product.salePrice > 0}">₹[(${product.costPrice})]</span>-->
-<!--                                            <span th:if="${product.salePrice > 0}">₹[(${product.salePrice})]</span>-->
-<!--                                            <span th:if="${product.salePrice > 0}" class="old-price">₹[(${product.costPrice})]</span>-->
-<!--                                        </div>-->
-<!--                                        <div class="product-action-1 show" th:if="${product.currentQuantity>0}">-->
-<!--                                            <a aria-label="Add To Cart" class="action-btn hover-up" th:href="@{/addToCart(productId=${product.id})}"><i class="fi-rs-shopping-bag-add"></i></a>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash;pagination&ndash;&gt;-->
-<!--                        <div class="pagination-area mt-30 mb-50">-->
-<!--                            <nav aria-label="Page navigation example">-->
-<!--                                <ul class="pagination justify-content-start">-->
-<!--                                    <li th:if = "${currentPage != 0}" class="page-item">-->
-<!--                                        <a th:href="@{'/shops/' + ${currentPage - 1}}" class="page-link" href="#"><i class="material-icons md-chevron_left"></i></a>-->
-<!--                                    </li>-->
-<!--                                    <li th:each="i : ${#numbers.sequence(1,totalPages)}" th:classappend="${currentPage == i - 1 ? 'active' : ''}" class="page-item">-->
-<!--                                        <a th:href="@{'/shops/' + ${i - 1}}" class="page-link" href="#"><span th:text=" ${i}"></span></a>-->
-<!--                                    </li>-->
-<!--                                    <li th:if = "${currentPage +1 != totalPages}" class="page-item">-->
-<!--                                        <a th:href=" @{'/shops/' +${currentPage + 1}}" class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </nav>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </section>-->
-<!--    </main>-->
 <footer th:replace="~{fragments::footer-sec}"></footer>
 <!-- Preloader Start -->
 <div th:replace="~{fragments::pre-loader}"></div>

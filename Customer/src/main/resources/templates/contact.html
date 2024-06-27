@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments::head_sec}"></head>
+
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::signin-side-header}"></div>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/home}" rel="nofollow">Home</a>
+                <span></span> Contact Us
+            </div>
+        </div>
+    </div>
+
+    <section class="hero-2 bg-green">
+        <div class="hero-content">
+            <div class="container">
+                <div class="text-center">
+                    <h4 class="text-brand mb-20">Welcome to Walkwise</h4>
+                    <h1 class="mb-20 wow fadeIn animated font-xxl fw-900">
+                        Let's Talk About<br> <span class="text-style-1">Us</span>
+                    </h1>
+                    <p class="w-50 m-auto mb-50 wow fadeIn animated">
+                        At Walkwise, we believe that shoes are more than just accessories; they’re a statement of your personality and a companion for your everyday adventures. Our mission is to provide a diverse range of high-quality shoes that cater to every need and style, ensuring that you always find the perfect pair for any occasion.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-border pt-50 pb-50">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 wow fadeIn animated">
+                    <h2 class="mb-20 font-xxl fw-900">
+                        <span class="text-style-1">Our Story</span>
+                    </h2>
+                    <p>
+                        Walkwise was founded with a passion for fashion and a keen eye for practicality. We noticed a gap in the market for shoes that were not only fashionable but also durable and functional. Our journey began with a simple goal: to create a collection of shoes that blend elegance with utility, making everyday life more convenient and stylish.
+                    </p>
+                </div>
+                <div class="col-md-6 wow fadeIn animated">
+                    <!-- Add an image or relevant content here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-border pt-50 pb-50">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 wow fadeIn animated">
+                    <!-- Add an image or relevant content here -->
+                </div>
+                <div class="col-md-6 wow fadeIn animated">
+                    <h2 class="mb-20 font-xxl fw-900">
+                        <span class="text-style-1">Our Commitment</span>
+                    </h2>
+                    <p>
+                        Quality and customer satisfaction are at the heart of everything we do. We are committed to providing our customers with exceptional products and outstanding service. Our dedicated team works tirelessly to ensure that every shopping experience at Walkwise is seamless, enjoyable, and rewarding. We value your feedback and continuously strive to improve our offerings based on your needs and preferences.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-green">
+        <div class="container">
+            <div class="text-center">
+                <h4 class="text-brand mb-20"></h4>
+                <h1 class="mb-20 wow fadeIn animated font-xxl fw-900">
+                    Join the Walkwise Community
+                </h1>
+                <p class="w-50 m-auto mb-50 wow fadeIn animated">
+                    At Walkwise, we’re more than just a store; we’re a community of shoe enthusiasts. Follow us on social media to stay updated on the latest trends, exclusive offers, and styling tips. Join our community and share your Walkwise moments with us using #Walkwise.
+                </p>
+            </div>
+            <div class="row justify-content-around pb-50 pt-20">
+                <div class="col-md-4 mb-4 mb-md-0 bg-light border-radius-5 p-10">
+                    <h4 class="mb-15 text-brand">Office</h4>
+                    205 North Michigan Avenue, Suite 810<br>
+                    Chicago, 60601, USA<br>
+                    <abbr title="Phone">Phone:</abbr> (123) 456-7890<br>
+                    <abbr title="Email">Email:</abbr> contact@walkwise.com<br>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0 bg-light border-radius-5 p-10">
+                    <h4 class="mb-15 text-brand">Shop</h4>
+                    205 North Michigan Avenue, Suite 810<br>
+                    Chicago, 60601, USA<br>
+                    <abbr title="Phone">Phone:</abbr> (123) 456-7890<br>
+                    <abbr title="Email">Email:</abbr> contact@walkwise.com<br>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-50 pb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-10 m-auto">
+                    <div class="contact-form-area padding-20-row-col wow FadeInUp">
+                        <h3 class="mb-10 text-center">Drop Us a Line</h3>
+                        <p class="text-muted mb-30 text-center font-sm">Feel free to get in touch with us for any inquiries.</p>
+                        <form class="contact-form-style text-center" id="contact-form" action="https://api.web3forms.com/submit" method="post">
+                            <div class="row">
+                                <input type="hidden" name="access_key" value="18fbe15e-c7c5-4a36-8067-c0623bab5135">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="name" placeholder="First Name" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="email" placeholder="Your Email" type="email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="telephone" placeholder="Your Phone" type="tel">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="subject" placeholder="Subject" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="textarea-style mb-30">
+                                        <textarea name="message" placeholder="Message"></textarea>
+                                    </div>
+                                    <button class="submit submit-auto-width" type="submit">Send message</button>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="form-message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<!-- Preloader Start -->
+<div th:replace="~{fragments::pre-loader}"></div>
+<!-- Vendor JS-->
+<div th:replace="~{fragments::scripts}"></div>
+</body>
+</html>

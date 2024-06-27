@@ -11,7 +11,8 @@
         <!--                <img src="/admin/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">-->
         <!--            </a>-->
         <div>
-            <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i>
+            </button>
         </div>
     </div>
     <nav>
@@ -37,8 +38,9 @@
                 </a>
             </li>
             <li class="menu-item ">
-                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
-                    <span class="text" >Orders</span>
+                <a class="menu-link" th:href="@{/orderDetails/0}" href="page-orders-1.html"> <i
+                        class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">Orders</span>
                 </a>
             </li>
             <li class="menu-item active">
@@ -78,86 +80,102 @@
                         <h4>Coupon Details</h4>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/saveCoupon}" th:object="${couponDto}"   method="POST" onsubmit="return validateDates()">
+                        <form th:action="@{/saveCoupon}" th:object="${couponDto}" method="POST"
+                              onsubmit="return validateDates()">
 
                             <div class="mb-4">
-                                <label  class="form-label">coupon Code</label>
-                                <input type="text" th:field="*{couponcode}"  name="couponcode"   class="form-control"  />
-                                <p style="color: red" th:if="${#fields.hasErrors('couponcode')}" th:errors="*{couponcode}"></p>
-
-                            </div>
-                            <div class="mb-4">
-                                <label  class="form-label">coupon Description</label>
-                                <input type="text" th:field="*{couponDescription}"  name="couponDescription"   class="form-control" />
-                                <p style="color: red" th:if="${#fields.hasErrors('couponDescription')}" th:errors="*{couponDescription}"></p>
+                                <label class="form-label">coupon Code</label>
+                                <input type="text" th:field="*{couponcode}" name="couponcode" class="form-control"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('couponcode')}"
+                                   th:errors="*{couponcode}"></p>
 
                             </div>
                             <div class="mb-4">
-                                <label  class="form-label">Offer Percentage</label>
-                                <input type="text" th:field="*{offerPercentage}"  name="offerPercentage"   class="form-control"/>
-                                <p style="color: red" th:if="${#fields.hasErrors('offerPercentage')}" th:errors="*{offerPercentage}"></p>
+                                <label class="form-label">coupon Description</label>
+                                <input type="text" th:field="*{couponDescription}" name="couponDescription"
+                                       class="form-control"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('couponDescription')}"
+                                   th:errors="*{couponDescription}"></p>
 
                             </div>
                             <div class="mb-4">
-                                <label  class="form-label">coupon count</label>
-                                <input type="text" th:field="*{count}"  name="count"   class="form-control"/>
+                                <label class="form-label">Offer Percentage</label>
+                                <input type="text" th:field="*{offerPercentage}" name="offerPercentage"
+                                       class="form-control"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('offerPercentage')}"
+                                   th:errors="*{offerPercentage}"></p>
+
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">coupon count</label>
+                                <input type="text" th:field="*{count}" name="count" class="form-control"/>
                                 <p style="color: red" th:if="${#fields.hasErrors('count')}" th:errors="*{count}"></p>
 
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">Minimum Order Amount</label>
-                                <input type="text" th:field="*{minimumOrderAmount}" name="minimumOrderAmount" class="form-control" id="minimumOrderAmount" onkeyup="updateOfferPercentage()"/>
-                                <p style="color: red" th:if="${#fields.hasErrors('minimumOrderAmount')}" th:errors="*{minimumOrderAmount}"></p>
+                                <input type="text" th:field="*{minimumOrderAmount}" name="minimumOrderAmount"
+                                       class="form-control" id="minimumOrderAmount" onkeyup="updateOfferPercentage()"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('minimumOrderAmount')}"
+                                   th:errors="*{minimumOrderAmount}"></p>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">Maximum offer</label>
-                                <input type="text" th:field="*{maximumOfferAmount}" name="maximumOfferAmount" class="form-control" id="maximumOfferAmount" onkeyup="updateOfferPercentage()"/>
-                                <p style="color: red" th:if="${#fields.hasErrors('maximumOfferAmount')}" th:errors="*{maximumOfferAmount}"></p>
-                                <p id="maximumAmountError" style="color: red"></p> <!-- Modified paragraph tag for maximum amount error message -->
+                                <input type="text" th:field="*{maximumOfferAmount}" name="maximumOfferAmount"
+                                       class="form-control" id="maximumOfferAmount" onkeyup="updateOfferPercentage()"/>
+                                <p style="color: red" th:if="${#fields.hasErrors('maximumOfferAmount')}"
+                                   th:errors="*{maximumOfferAmount}"></p>
+                                <p id="maximumAmountError" style="color: red"></p>
+                                <!-- Modified paragraph tag for maximum amount error message -->
                             </div>
-<!--                            <div class="mb-4">-->
-<!--                                <label  class="form-label">Minimum Order Amount</label>-->
-<!--                                <input type="text" th:field="*{minimumOrderAmount}"  name="minimumOrderAmount"   class="form-control" />-->
-<!--                                <p style="color: red" th:if="${#fields.hasErrors('minimumOrderAmount')}" th:errors="*{minimumOrderAmount}"></p>-->
+                            <!--                            <div class="mb-4">-->
+                            <!--                                <label  class="form-label">Minimum Order Amount</label>-->
+                            <!--                                <input type="text" th:field="*{minimumOrderAmount}"  name="minimumOrderAmount"   class="form-control" />-->
+                            <!--                                <p style="color: red" th:if="${#fields.hasErrors('minimumOrderAmount')}" th:errors="*{minimumOrderAmount}"></p>-->
 
-<!--                            </div>-->
-<!--                            <div class="mb-4">-->
-<!--                                <label  class="form-label">Maximum offer</label>-->
-<!--                                <input type="text" th:field="*{maximumOfferAmount}"  name="maximumOfferAmount"   class="form-control"/>-->
-<!--                                <p style="color: red" th:if="${#fields.hasErrors('maximumOfferAmount')}" th:errors="*{maximumOfferAmount}"></p>-->
+                            <!--                            </div>-->
+                            <!--                            <div class="mb-4">-->
+                            <!--                                <label  class="form-label">Maximum offer</label>-->
+                            <!--                                <input type="text" th:field="*{maximumOfferAmount}"  name="maximumOfferAmount"   class="form-control"/>-->
+                            <!--                                <p style="color: red" th:if="${#fields.hasErrors('maximumOfferAmount')}" th:errors="*{maximumOfferAmount}"></p>-->
 
-<!--                            </div>-->
-<!--                            <div class="form-group"> &lt;!&ndash; Date input &ndash;&gt;-->
-<!--                                <div class="col-lg-6">-->
-<!--                                    <div class="mb-4">-->
-<!--                                        <label class="form-label">Start Date</label>-->
-<!--                                        <input class="form-control" th:field="*{startDate}" id="startDate" name="startDate"  type="date"/>-->
-<!--                                        <p style="color: red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>-->
+                            <!--                            </div>-->
+                            <!--                            <div class="form-group"> &lt;!&ndash; Date input &ndash;&gt;-->
+                            <!--                                <div class="col-lg-6">-->
+                            <!--                                    <div class="mb-4">-->
+                            <!--                                        <label class="form-label">Start Date</label>-->
+                            <!--                                        <input class="form-control" th:field="*{startDate}" id="startDate" name="startDate"  type="date"/>-->
+                            <!--                                        <p style="color: red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>-->
 
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-lg-6">-->
-<!--                                    <div class="mb-4">-->
-<!--                                        <label class="form-label">Expire Date</label>-->
-<!--                                        <input class="form-control" th:field="*{expireDate}" id="expireDate" name="expireDate"  type="date"/>-->
-<!--                                        <p style="color: red" th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></p>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label class="form-label">Start Date</label>
-                                        <input class="form-control" th:field="*{startDate}" id="startDate" name="startDate" type="date"/>
-                                        <p style="color: red" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
-                                    </div>
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                                <div class="col-lg-6">-->
+                            <!--                                    <div class="mb-4">-->
+                            <!--                                        <label class="form-label">Expire Date</label>-->
+                            <!--                                        <input class="form-control" th:field="*{expireDate}" id="expireDate" name="expireDate"  type="date"/>-->
+                            <!--                                        <p style="color: red" th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></p>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Start Date</label>
+                                    <input class="form-control" th:field="*{startDate}" id="startDate" name="startDate"
+                                           type="date"/>
+                                    <p style="color: red" th:if="${#fields.hasErrors('startDate')}"
+                                       th:errors="*{startDate}"></p>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label class="form-label">Expire Date</label>
-                                        <input class="form-control" th:field="*{expireDate}" id="expireDate" name="expireDate" type="date"/>
-                                        <p style="color: red" th:if="${#fields.hasErrors('expireDate')}" th:errors="*{expireDate}"></p>
-                                        <p id="expireDateError" style="color: red"></p> <!-- Modified paragraph tag for error message -->
-                                    </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label">Expire Date</label>
+                                    <input class="form-control" th:field="*{expireDate}" id="expireDate"
+                                           name="expireDate" type="date"/>
+                                    <p style="color: red" th:if="${#fields.hasErrors('expireDate')}"
+                                       th:errors="*{expireDate}"></p>
+                                    <p id="expireDateError" style="color: red"></p>
+                                    <!-- Modified paragraph tag for error message -->
                                 </div>
+                            </div>
                             <button class="btn btn-primary" type="submit">Save</button>
                         </form>
                     </div>
@@ -180,7 +198,7 @@
             maximumAmountError.textContent = "Maximum amount must be greater than minimum amount.";
             return false; // Prevent form submission
         }
-        maximumAmountError.textContent ="";
+        maximumAmountError.textContent = "";
         if (expireDate <= startDate) {
             expireDateError.textContent = "Expire date must be after start date.";
             return false; // Prevent form submission

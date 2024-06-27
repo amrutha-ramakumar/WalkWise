@@ -51,23 +51,29 @@ public class SearchController {
                                  @PathVariable("pageNo") int pageNo, Principal principal, Model model, HttpSession session) {
         if (customerUtils.isUserBlocked(principal, session)) return "redirect:/logout";
         Page<Product> products = productService.searchProductsByCategoryAndName(key, categoryName,pageNo);
-//        int size = products.size();
-        String baseUrl = request.getRequestURL().toString();
-        String currentPageUrl = baseUrl + "?categoryName=" + categoryName;
-
-        session.setAttribute("name", categoryName);
-        session.setAttribute("currentPageUrl", baseUrl);
-
-        model.addAttribute("products", products);
-        model.addAttribute("size", products.getTotalElements());
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", products.getTotalPages());
-
-        CategoryDto category1 = new CategoryDto();
-        model.addAttribute("categories1", category1);
         List<Category> categories = categoryService.findAllByActivatedTrue();
-        model.addAttribute("categories", categories);
-        return "search_result";
+        if (products.getTotalElements()==0){
+            model.addAttribute("categories", categories);
+            return "not-found";
+        }
+        else {
+            String baseUrl = request.getRequestURL().toString();
+            String currentPageUrl = baseUrl + "?categoryName=" + categoryName;
+
+            session.setAttribute("name", categoryName);
+            session.setAttribute("currentPageUrl", baseUrl);
+
+            model.addAttribute("products", products);
+            model.addAttribute("size", products.getTotalElements());
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", products.getTotalPages());
+            model.addAttribute("categories", categories);
+
+            CategoryDto category1 = new CategoryDto();
+            model.addAttribute("categories1", category1);
+
+            return "search_result";
+        }
     }
 
 //    @GetMapping("/category")
@@ -105,7 +111,14 @@ public String showCategoryFilterHome(@RequestParam("categoryName") String catego
 
     Pageable pageable = PageRequest.of(page, size);
     Page<Product> products = productService.findAllByCategoryName(categoryName, pageable);
-
+    CategoryDto category1 = new CategoryDto();
+    model.addAttribute("categories1", category1);
+    List<Category> categories = categoryService.findAllByActivatedTrue();
+    if (products.getTotalElements()==0){
+        model.addAttribute("categories", categories);
+        model.addAttribute("categoryName",categoryName);
+        return "not-found";
+    }
     String baseUrl = request.getRequestURL().toString();
     String currentPageUrl = baseUrl + "?categoryName=" + categoryName;
 
@@ -116,55 +129,115 @@ public String showCategoryFilterHome(@RequestParam("categoryName") String catego
     model.addAttribute("size", products.getTotalElements());
     model.addAttribute("currentPage", page);
     model.addAttribute("totalPages", products.getTotalPages());
-
-    CategoryDto category1 = new CategoryDto();
-    model.addAttribute("categories1", category1);
-    List<Category> categories = categoryService.findAllByActivatedTrue();
     model.addAttribute("categories", categories);
+
+    model.addAttribute("categoryName",categoryName);
+
 
     return "search_result";
 }
 
-    @GetMapping("/filterSearch")
-    public String filterSearch(@RequestParam("key") String key,
-                               Model model, HttpSession session,Principal principal) {
-        if (customerUtils.isUserBlocked(principal, session)) return "redirect:/logout";
-        Object lastPortion1 = session.getAttribute("currentPageUrl");
-        System.out.println(lastPortion1);
-        String lastPortion=lastPortion1.toString();
-        String[] parts = lastPortion.split("/");
-        String lastSegment = parts[parts.length - 1];
-        System.out.println("Last portion: " + lastSegment);
-        System.out.println("key: " + key);
-        List<Product> products=new ArrayList<>();
-        switch (lastSegment){
-            case "popular":
-                products=productService.findTopSellingProductsWithKeyword(key);
-                break;
-            case "random":
-                products=productService.randomProductWithKeyword(key);
-                break;
-            case "newArrival":
-                products=productService.filterByIdDescendingWithKeyword(key);
-                break;
-            case "searchCategoryHome": {
-                String categoryName=session.getAttribute("name").toString();
-                products = productService.findProductsByCategoryNameAndKeyword(categoryName, key);
-                break;
-            }
-            default:
-                products = productService.searchProduct(key);
+//    @GetMapping("/filterSearch")
+//    public String filterSearch(@RequestParam("key") String key,
+//                               Model model, HttpSession session,Principal principal) {
+//        if (customerUtils.isUserBlocked(principal, session)) return "redirect:/logout";
+//        Object lastPortion1 = session.getAttribute("currentPageUrl");
+//        System.out.println(lastPortion1);
+//        String lastPortion=lastPortion1.toString();
+//        String[] parts = lastPortion.split("/");
+//        String lastSegment = parts[parts.length - 1];
+//        System.out.println("Last portion: " + lastSegment);
+//        System.out.println("key: " + key);
+//        List<Product> products=new ArrayList<>();
+//        switch (lastSegment){
+//            case "popular":
+//                products=productService.findTopSellingProductsWithKeyword(key);
+//                break;
+//            case "random":
+//                products=productService.randomProductWithKeyword(key);
+//                break;
+//            case "newArrival":
+//                products=productService.filterByIdDescendingWithKeyword(key);
+//                break;
+//            case "searchCategoryHome": {
+//                String categoryName=session.getAttribute("name").toString();
+//                products = productService.findProductsByCategoryNameAndKeyword(categoryName, key);
+//                break;
+//            }
+//            default:
+//                products = productService.searchProduct(key);
+//
+//        }
+//
+//        model.addAttribute("products",products);
+//        Category category=new Category();
+//        model.addAttribute("categories1",category);
+//        List<Category> categories=categoryService.findAllByActivatedTrue();
+//        model.addAttribute("categories",categories);
+//        model.addAttribute("size",products.size());
+//        model.addAttribute("hidePagination", true);
+//        return "search_result";
+//    }
+@GetMapping("/filterSearch")
+public String filterSearch(@RequestParam("key") String key,
+                           Model model, HttpSession session, Principal principal) {
+    if (customerUtils.isUserBlocked(principal, session)) return "redirect:/logout";
 
-        }
+    // Retrieve the currentPageUrl attribute from the session
+    Object lastPortion1 = session.getAttribute("currentPageUrl");
 
-        model.addAttribute("products",products);
-        Category category=new Category();
-        model.addAttribute("categories1",category);
-        List<Category> categories=categoryService.findAllByActivatedTrue();
-        model.addAttribute("categories",categories);
-        model.addAttribute("size",products.size());
-        model.addAttribute("hidePagination", true);
-        return "search_result";
+    // Check if the attribute is null and provide a default value or handle the case appropriately
+    String lastPortion;
+    if (lastPortion1 == null) {
+        // Handle the case where currentPageUrl is not set in the session
+        // Use a default value or take appropriate action
+        lastPortion = "default"; // Replace "default" with an appropriate default value
+    } else {
+        lastPortion = lastPortion1.toString();
     }
+
+    // Split the lastPortion to get the last segment
+    String[] parts = lastPortion.split("/");
+    String lastSegment = parts[parts.length - 1];
+
+    System.out.println("Last portion: " + lastSegment);
+    System.out.println("key: " + key);
+
+    // Retrieve products based on the last segment
+    List<Product> products = new ArrayList<>();
+    switch (lastSegment) {
+        case "popular":
+            products = productService.findTopSellingProductsWithKeyword(key);
+            break;
+        case "random":
+            products = productService.randomProductWithKeyword(key);
+            break;
+        case "newArrival":
+            products = productService.filterByIdDescendingWithKeyword(key);
+            break;
+        case "searchCategoryHome":
+            String categoryName = session.getAttribute("name").toString();
+            products = productService.findProductsByCategoryNameAndKeyword(categoryName, key);
+            break;
+        default:
+            products = productService.searchProduct(key);
+    }
+    List<Category> categories = categoryService.findAllByActivatedTrue();
+    if (products.size()==0){
+        model.addAttribute("categories", categories);
+        return "not-found";
+    }
+    // Add attributes to the model
+    model.addAttribute("products", products);
+    Category category = new Category();
+    model.addAttribute("categories1", category);
+    model.addAttribute("categories", categories);
+
+    model.addAttribute("size", products.size());
+    model.addAttribute("hidePagination", true);
+
+    return "search_result";
+}
+
 
 }

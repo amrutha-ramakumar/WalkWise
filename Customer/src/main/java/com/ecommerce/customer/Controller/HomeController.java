@@ -57,14 +57,14 @@ public class HomeController {
     public String showMainPage(Model model, Principal principal, HttpSession session) {
         if (customerUtils.isUserBlocked(principal, session)) return "redirect:/logout";
         List<ProductDto> products=productService.findAllProducts();
-//        List<Category> categories = categoryService.findAllByActivatedTrue();
+        List<Category> categories = categoryService.findAllByActivatedTrue();
         List<Product> productDtos = productService.findAll();
-        List<String> brands=productRepository.findDistinctBrands();
-//        model.addAttribute("categories", categories); // Corrected typo: "caregories" -> "categories"
+//        List<String> brands=productRepository.findDistinctBrands();
+        model.addAttribute("categories", categories); // Corrected typo: "caregories" -> "categories"
         model.addAttribute("products", productDtos);
         model.addAttribute("product",products);
 //        model.addAttribute("categories",categories);
-        model.addAttribute("brands",brands);
+//        model.addAttribute("brands",brands);
         model.addAttribute("tittle","main");
 
         return "index";
@@ -86,7 +86,6 @@ public class HomeController {
 
                 session.setAttribute("username", principal.getName());
                 model.addAttribute("tittle", "shop");
-//                List<String> brands=productRepository.findDistinctBrands();
                 List<Category> categories = categoryService.findAll();
                 List<Product> productDtos = productService.findAll();
                 model.addAttribute("categories", categories); // Corrected typo: "caregories" -> "categories"
@@ -214,6 +213,10 @@ public class HomeController {
             session.removeAttribute("username");
             return "login";
         }
+    }
+    @GetMapping("/contact")
+    public String contact(){
+        return "contact";
     }
 //    private boolean isUserBlocked(Principal principal, HttpSession session) {
 //        if (principal != null) {

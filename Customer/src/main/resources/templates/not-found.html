@@ -1,0 +1,89 @@
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::head_sec}"></head>
+
+<body>
+<header class="header-area header-style-1 header-height-2" th:replace="~{fragments::header-sec}">
+</header>
+<div th:replace="~{fragments::side-header}"></div>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/home}">Home</a>
+                <span></span> Shop
+            </div>
+        </div>
+    </div>
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop-product-fillter">
+                        <div class="totall-product"  style="margin-left: 950px;">
+                            <div class="input-group">
+                                <form class="search-form" th:action="@{/search/0}" method="GET" id="filterForm" style="background-color: #f1f1f1;">
+                                    <input type="text" name="key" class="form-control" placeholder="Search product" aria-label="Search"/>
+                                    <input type="hidden" name="categoryName" th:value="${session.name}"/>
+                                    <!-- Button can be added if required -->
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="sort-by-cover">
+                            <select onchange="location=this.value" style="background-color: #f1f1f1; height: 45px; width: 150px">
+                                <option>Featured</option>
+                                <option value="https://amrutharamakumar.online/shop/shops/0">All</option>
+                                <option value="https://amrutharamakumar.online/shop/low-price-high/0">Price: Low to High</option>
+                                <option value="https://amrutharamakumar.online/shop/high-price-low/0">Price: High to Low</option>
+                                <option value="https://amrutharamakumar.online/shop/new-arrivals/0">Newest First</option>
+                                <option value="https://amrutharamakumar.online/shop/new-AtoZ/0">aA-zZ</option>
+                                <option value="https://amrutharamakumar.online/shop/new-ZtoA/0">zZ-aA</option>
+                                <option value="https://amrutharamakumar.online/shop/shops/0">Popularity </option>
+                                <option value="https://amrutharamakumar.online/shop/shops/0">Average ratings </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-row-reverse">
+                <div class="col-lg-9">
+                    <div class="no-results">
+                        <h2 class="fw-600 mb-20">No Products Found</h2>
+                        <p class="mb-15">We're sorry, but we couldn't find any products matching your search criteria.</p>
+                        <p class="mb-15">Try adjusting your search or explore our categories for more options.</p>
+                        <img style="width: 300px; height: 300px; align-items: center;" src="https://cdn.dribbble.com/users/3512533/screenshots/14168376/media/1357b33cb4057ecb3c6f869fc977561d.jpg" alt="No Products Found" class="mb-15">
+                        <div>
+                            <a th:href="@{/shops/0}" class="btn btn-brand mb-15">Go Back to Shop</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                    <div class="widget-category mb-30">
+                        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                        <ul class="categories" th:each="category : ${categories}">
+                            <li>
+                                <a th:href="'/shop/category?categoryName=' + ${category.name}"
+                                   th:text="${category.name}"
+                                   th:style="${category.name == categoryName} ? 'color: green;' : ''"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments::footer-sec}"></footer>
+<!-- Preloader Start -->
+<div th:replace="~{fragments::pre-loader}"></div>
+<!-- Vendor JS-->
+<div th:replace="~{fragments::scripts}"></div>
+<!-- Template  JS -->
+</body>
+
+</html>
